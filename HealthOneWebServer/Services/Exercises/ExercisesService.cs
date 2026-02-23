@@ -12,7 +12,7 @@ namespace HealthOneWebServer.Services.Exercises
     {
       _client = client;
     }
-    public async Task<IActionResult> GetExercisesByTargetMuscle(ExerciseRequestDto? request, string muscle)
+    public async Task<IActionResult> GetExercisesByTargetMuscle(BaseExerciseRequestQueryParams? request, string muscle)
     {
       string queryParams = BaseApiClient.CreateUrlQueryString(request);
       string endpoint = $"exercises/target/{muscle}?{queryParams}";

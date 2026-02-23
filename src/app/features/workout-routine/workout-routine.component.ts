@@ -1,22 +1,16 @@
-import { Component, computed, signal } from '@angular/core';
-import { WorkoutRoutineService } from '../../services/workout-routine.service';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { CardItem } from '../shared/panel-card/panel-card.component';
 import { Observable } from 'rxjs';
 import { ExerciseService } from '../../services/exercise.service';
-import { ExerciseSetRequest } from '../../models/requests/exercise-set-request.model';
+import { ExerciseByTargetMuscleRequest } from '../../models/dto/exercise.model';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Muscle } from '../../models/exercises/muscle.model';
 
-interface MuscleGroup 
-{
-  id: number,
-  name: string,
-  bodySection: string
-}
-
-interface Category {
-  parentId?: number,
-  name: string,
-  selected: boolean,
-  subCategories?: Category[]
+enum FilterCategory {
+  Muscle = "Muscle",
+  BodyPart = "Body Part",
+  Equipment = "Equipment",
+  ExerciseName = "Exercise Name"
 }
 
 @Component({
@@ -25,78 +19,31 @@ interface Category {
   templateUrl: './workout-routine.component.html',
   styleUrl: './workout-routine.component.scss'
 })
-export class WorkoutRoutineComponent {
-  readonly bodyParts = signal<Category[]>([
-    {
-    parentId: 1,
-    name: 'Upper Body',
-    selected: false,
-    subCategories: [
-      {name: 'Chest', selected: false},
-      {name: 'Shoulders', selected: false},
-      {name: 'Biceps', selected: false},
-      {name: 'Triceps', selected: false},
-      {name: 'Forearms', selected: false},
-      {name: 'Delts', selected: false},
-      {name: 'Lats', selected: false}
-      ]
-    },
-    {
-      parentId: 2,
-      name: 'Lower Body',
-      selected: false,
-      subCategories: [
-        {name: 'Abs', selected: false},
-        {name: 'Hamstrings', selected: false},
-        {name: 'Glutes', selected: false},
-        {name: 'Quads', selected: false},
-        {name: 'Calves', selected: false},
-        {name: 'Knees', selected: false},
-        {name: 'Back', selected: false}
-      ]
-    }
+export class WorkoutRoutineComponent implements OnInit {
 
-])
-  muscleGroupOptions! : MuscleGroup[];
-  selectedMuscleGroup! : MuscleGroup;
-  workouts: Observable<MuscleGroup>;
+  filterControl: FormControl<FilterCategory> = new FormControl<FilterCategory>(FilterCategory.Muscle);
+  filterCategoryEnum = FilterCategory;
+  muscleList = Object.keys(Muscle);
+  formGroup: FormGroup;
+
+  selectedTabIndex = 0;
+  tabs = ["Muscle", "Body Part", "Equipment", "Exercise"];
 
   constructor(
-    private workoutRoutineSvc: WorkoutRoutineService,
-    private exerciseSvc: ExerciseService
-  ) 
-  {
-    this.muscleGroupOptions = workoutRoutineSvc.getMuscleGroups();
+    private exerciseSvc: ExerciseService,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
+    this.createFormGroup();
   }
 
-  getMuscleGroupCardItems(id): CardItem[]
-  {
-    return this.workoutRoutineSvc.getWorkoutsByMuscleGroupId(id);
-  }
-
-  partiallySelected(bodyPart: Category): boolean {
-    if (!bodyPart.subCategories) {
-      return false;
-    }
-
-    return bodyPart.subCategories.some((elem) => elem.selected) && !bodyPart.subCategories.every((elem) => elem.selected);
-  }
-
-  updateSelection(selected: boolean, index: number, searchInParentId?: number) {
-    const request: ExerciseSetRequest = {
-    }
-    this.exerciseSvc.getExerciseSet(request).subscribe((data) => console.log(data))
-
-    if (searchInParentId) {
-      const parentElem = this.bodyParts().find((parentElem) => parentElem.parentId === searchInParentId);
-      const childElem = parentElem.subCategories[index];
-      childElem.selected = selected;
-      parentElem.selected = parentElem.subCategories.every((child) => child.selected);
-      return;
-    }
-
-    const parentElem = this.bodyParts()[index];
-    parentElem.selected = selected;
-    parentElem.subCategories.forEach((childElem) => childElem.selected = selected);
+  createFormGroup() {
+    this.formGroup = this.fb.group({
+      muscles: this.fb.control([]),
+      bodyParts: this.fb.control([]),
+      equipment: this.fb.control([]),
+      exerciseNames: this.fb.control([])
+    })
   }
 }

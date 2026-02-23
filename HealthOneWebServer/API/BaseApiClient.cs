@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace HealthOneWebServer.API.Remote
 {
-  public class BaseApiClient
+  public abstract class BaseApiClient
   {
     private readonly HttpClient _httpClient;
 
@@ -14,17 +14,14 @@ namespace HealthOneWebServer.API.Remote
       
     }
 
-    public async Task<List<TResponse?>> GetListAsync<TResponse>(string endpoint)
+    public virtual async Task<TResponse> GetAsync<TResponse>(string requestUri)
     {
-      var response = await _httpClient.GetAsync(endpoint);
-      Console.WriteLine(response);
+      var response = await _httpClient.GetAsync(requestUri);
       response.EnsureSuccessStatusCode();
 
       var content = await response.Content.ReadAsStringAsync();
-      Console.WriteLine(content);
 
-
-      return JsonSerializer.Deserialize<List<TResponse?>>(content, new JsonSerializerOptions
+      return JsonSerializer.Deserialize<TResponse>(content, new JsonSerializerOptions
       {
         PropertyNameCaseInsensitive = true
       });

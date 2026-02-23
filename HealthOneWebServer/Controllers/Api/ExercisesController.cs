@@ -25,10 +25,10 @@ namespace HealthOneWebServer.Controllers.API
 
     // POST api/<Exercises>/
     [HttpPost]
-    [Route("exercises/{muscle}")]
-    public async Task<IActionResult> GetExerciseByMuscle(ExerciseRequestDto request, string muscle)
+    [Route("exercises/target/{targetMuscle}")]
+    public async Task<IActionResult> GetExercisesByTargetMuscle(BaseExerciseRequestQueryParams request, string targetMuscle)
     {
-      return await _exercisesService.GetExercisesByTargetMuscle(request, muscle);
+      return await _exercisesService.GetExercisesByTargetMuscle(request, targetMuscle);
     }
 
     // PUT api/<Exercises>/5
