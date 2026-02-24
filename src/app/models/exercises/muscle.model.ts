@@ -1,0 +1,21 @@
+export enum Muscle {
+    abductors = "Abductors", 
+    abs = "Abs", 
+    adductors = "Adductors", 
+    biceps = "Biceps", 
+    calves = "Calves", 
+    cardiovascular_system = "Cardiovascular", 
+    delts = "Delts", 
+    forearms = "Forearms", 
+    glutes = "Glutes", 
+    hamstrings = "Hamstrings", 
+    lats = "Lats", 
+    levator_scapulae = "Levator Scapulae", 
+    pectorals = "Pectorals", 
+    quads = "Quads", 
+    serratus_anterior = "Serratus Anterior", 
+    spine = "Spine", 
+    traps = "Traps", 
+    triceps = "Triceps", 
+    upper_back = "Upper Back"
+}

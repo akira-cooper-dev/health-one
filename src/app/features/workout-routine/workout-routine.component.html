@@ -1,24 +1,3 @@
 <div class="menu-left">
-    <section class="body-part-checkboxes">
-        @for (bodyPart of bodyParts(); track $index) {
-            <mat-checkbox 
-            [checked]="bodyPart.selected" 
-            [indeterminate]="partiallySelected(bodyPart)"
-            (change)="updateSelection($event.checked, $index)"
-            >{{bodyPart.name}}
-        </mat-checkbox>
-            <ul>
-                @for (muscle of bodyPart.subCategories; track $index)
-                {
-                    <li>
-                        <mat-checkbox 
-                        [checked]="muscle.selected"
-                        (change)="updateSelection($event.checked, $index, bodyPart.parentId)"
-                        >{{muscle.name}}
-                        </mat-checkbox>
-                    </li>
-                }
-            </ul>
-        }
-    </section>
+    
 </div>

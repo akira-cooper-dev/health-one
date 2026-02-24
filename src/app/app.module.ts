@@ -9,6 +9,9 @@ import { WorkoutRoutineModule } from './features/workout-routine/workout-routine
 import { PanelCardModule } from './features/shared/panel-card/panel-card.module';
 import { ApiHttpInterceptor } from './core/api-http-interceptor';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {provideAnimations} from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -21,7 +24,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
     ReactiveFormsModule,
     FormsModule,
     WorkoutRoutineModule,
-    PanelCardModule
+    PanelCardModule,
+    MatButtonToggleModule
   ],
   providers: [
     {
@@ -29,7 +33,8 @@ import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
       useClass: ApiHttpInterceptor,
       multi: true
     },
-    provideHttpClient()
+    provideHttpClient(),
+    provideAnimations()
   ],
   bootstrap: [AppComponent]
 })
