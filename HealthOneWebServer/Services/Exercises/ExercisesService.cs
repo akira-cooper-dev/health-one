@@ -1,3 +1,4 @@
+using HealthOneWebServer.API;
 using HealthOneWebServer.API.Remote;
 using HealthOneWebServer.Model.RapidAPI.Exercises;
 using Microsoft.AspNetCore.Mvc;
@@ -6,11 +7,16 @@ namespace HealthOneWebServer.Services.Exercises
 {
   public class ExercisesService
   {
-    private readonly RapidApiClient _client;
+    private readonly AscendApiClient _client;
 
-    public ExercisesService(RapidApiClient client)
+    public ExercisesService(AscendApiClient client)
     {
       _client = client;
+    }
+
+    public async Task<IActionResult> GetExerciseById(int id)
+    {
+      string urlQueryString = BaseApiClient.CreateUrlQueryString(id)
     }
     public async Task<IActionResult> GetExercisesByTargetMuscle(BaseExerciseRequestQueryParams? request, string muscle)
     {

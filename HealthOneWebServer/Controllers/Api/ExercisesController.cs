@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using HealthOneWebServer.Model.RapidAPI.Exercises;
 using HealthOneWebServer.Services.Exercises;
+using HealthOneWebServer.Model.AscendApi.Exercises;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,11 +17,19 @@ namespace HealthOneWebServer.Controllers.API
     {
       _exercisesService = service;
     }
-    // GET: api/<Exercises>
+
     [HttpGet]
-    public IEnumerable<string> GetExercise()
+    [Route("exercises/{id}")]
+    public async Task<IActionResult> GetExerciseById()
     {
-      return new string[] { "value1", "value2" };
+      return await _exercisesService.GetExerciseById(id);
+    }
+
+    [HttpPost]
+    [Route("bodyparts/{bodyPartName}/exercises")]
+    public async Task<IActionResult> GetExercisesByBodyParts([FromBody]GetExerciseByBodypartsQueryParams queryParams)
+    {
+      return await _exercisesService.GetExercisesByBodyParts(bodyPartName, queryParams);
     }
 
     // POST api/<Exercises>/
@@ -30,6 +39,8 @@ namespace HealthOneWebServer.Controllers.API
     {
       return await _exercisesService.GetExercisesByTargetMuscle(request, targetMuscle);
     }
+
+    [HttpPost]
 
     // PUT api/<Exercises>/5
     [HttpPut("{id}")]

@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -29,21 +30,57 @@ namespace HealthOneWebServer.API.Remote
 
     public static string CreateUrlQueryString<T>(T obj)
     {
-      string queryString = string.Empty;
+      if (obj == null)
+      {
+        return string.Empty;
+      }
+
       Type type = obj.GetType();
+
+      // if type is not object, return its string value
+      if (type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(decimal) || type == typeof(DateTime))
+      {
+        return Uri.EscapeDataString(obj.ToString() ?? string.Empty);
+      }
+
       PropertyInfo[] properties = type.GetProperties();
+      var sb = new StringBuilder();
 
       foreach (var param in properties)
       {
-        if (param != null && !String.IsNullOrWhiteSpace(param?.GetValue(obj)?.ToString()))
+        if (param == null)
         {
-          queryString += param.Name.ToLower() + "=" + param?.GetValue(obj)?.ToString().ToLower() + "&";
+          continue;
         }
+
+        var valueObj = param.GetValue(obj);
+        if (valueObj == null)
+        {
+          continue;
+        }
+
+        var valueStr = valueObj.ToString();
+        if (string.IsNullOrWhiteSpace(valueStr))
+        {
+          continue;
+        }
+
+        var name = param.Name.ToLowerInvariant();
+        sb.Append(Uri.EscapeDataString(name));
+        sb.Append('=');
+        sb.Append(Uri.EscapeDataString(valueStr.ToLowerInvariant()));
+        sb.Append('&');
       }
 
-      queryString = queryString.Remove(queryString.Length - 1);
+      if (sb.Length == 0)
+      {
+        return string.Empty;
+      }
 
-      return queryString;
+      // remove trailing '&'
+      sb.Length -= 1;
+
+      return sb.ToString();
     }
   }
 }
