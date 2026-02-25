@@ -3,11 +3,14 @@ using System.Runtime.Serialization;
 
 namespace HealthOneWebServer.Model.AscendApi.Exercises
 {
-  public class GetExerciseByBodypartsQueryParams : BaseExerciseRequestQueryParams { }
-  public class GetExerciseByEquipmentQueryParams : BaseExerciseRequestQueryParams { }
-  public class GetExercisesByMuscleQueryParams : BaseExerciseRequestQueryParams { }
+  public class BodyPartsQueryParams : BaseExerciseRequestQueryParams { }
+  public class EquipmentQueryParams : BaseExerciseRequestQueryParams { }
+  public class MuscleQueryParams : BaseExerciseRequestQueryParams
+  {
+    public bool IncludeSecondaryMuscle { get; set; }
+  }
 
-  public class GetExercisesWithOptionalSearch : BaseExerciseRequestQueryParams
+  public class OptionalSearchQueryParams : BaseExerciseRequestQueryParams
   {
     public string SearchQuery { get; set; }
     public SortField SortByField { get; set; }

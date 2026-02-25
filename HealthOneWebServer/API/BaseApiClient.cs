@@ -12,7 +12,6 @@ namespace HealthOneWebServer.API.Remote
     public BaseApiClient(HttpClient httpClient)
     {
       _httpClient = httpClient;
-      
     }
 
     public virtual async Task<TResponse> GetAsync<TResponse>(string requestUri)
@@ -28,7 +27,7 @@ namespace HealthOneWebServer.API.Remote
       });
     }
 
-    public static string CreateUrlQueryString<T>(T obj)
+    public static string CreateUriQueryString<T>(T obj)
     {
       if (obj == null)
       {

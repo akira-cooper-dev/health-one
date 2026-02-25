@@ -1,10 +1,9 @@
 namespace HealthOneWebServer.Model.RapidAPI.Base
 {
-  public class BaseApiResponse
+  public class BaseApiResponse<TData>
   {
     public bool Success { get; set; }
-    public object? MetaData { get; set; }
-    public object[] Data { get; set; }
+    public virtual required List<TData> Data { get; set; }
     public string? Message { get; set; } // error message
 
   }

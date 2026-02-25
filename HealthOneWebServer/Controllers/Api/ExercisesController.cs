@@ -19,28 +19,25 @@ namespace HealthOneWebServer.Controllers.API
     }
 
     [HttpGet]
-    [Route("exercises/{id}")]
-    public async Task<IActionResult> GetExerciseById()
+    [Route("exercises/{id: string}")]
+    public async Task<IActionResult> GetExerciseById(string id)
     {
       return await _exercisesService.GetExerciseById(id);
     }
 
     [HttpPost]
-    [Route("bodyparts/{bodyPartName}/exercises")]
-    public async Task<IActionResult> GetExercisesByBodyParts([FromBody]GetExerciseByBodypartsQueryParams queryParams)
+    [Route("bodyparts/{bodyPartName: string}/exercises")]
+    public async Task<IActionResult> GetExercisesByBodyParts([FromBody] BodyPartsQueryParams? queryParams, string bodyPartName)
     {
-      return await _exercisesService.GetExercisesByBodyParts(bodyPartName, queryParams);
-    }
-
-    // POST api/<Exercises>/
-    [HttpPost]
-    [Route("exercises/target/{targetMuscle}")]
-    public async Task<IActionResult> GetExercisesByTargetMuscle(BaseExerciseRequestQueryParams request, string targetMuscle)
-    {
-      return await _exercisesService.GetExercisesByTargetMuscle(request, targetMuscle);
+      return await _exercisesService.GetExercisesByBodyParts(queryParams, bodyPartName);
     }
 
     [HttpPost]
+    [Route("equipments/{equipmentName: string}/exercises")]
+    public async Task<IActionResult> GetExercisesByEquipment([FromBody] EquipmentQueryParams? queryParams, string equipmentName)
+    {
+      return await _exercisesService.GetExercisesByEquipment(queryParams, equipmentName);
+    }
 
     // PUT api/<Exercises>/5
     [HttpPut("{id}")]
