@@ -11,11 +11,15 @@ import { ApiHttpInterceptor } from './core/api-http-interceptor';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {provideAnimations} from '@angular/platform-browser/animations';
-
+import { WorkoutPlannerComponent } from './features/workout-planner/workout-planner.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
+    WorkoutPlannerComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +29,10 @@ import {provideAnimations} from '@angular/platform-browser/animations';
     FormsModule,
     WorkoutRoutineModule,
     PanelCardModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatIconModule,
+    MatToolbarModule,
+    MatCardModule
   ],
   providers: [
     {

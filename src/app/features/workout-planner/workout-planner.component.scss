@@ -1,0 +1,24 @@
+.search-results {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 2rem;
+}
+
+.search-block {
+    background: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.search-icon:disabled {
+    background: transparent;
+    outline: none;
+    border: 0;
+    padding: 0;
+}
+
+.search-control {
+    padding-left: 1rem;
+    font-size: 1rem;
+    border: 0;
+    outline: none;
+}

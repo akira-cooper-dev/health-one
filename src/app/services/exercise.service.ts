@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ExerciseByTargetMuscleRequest } from '../models/dto/exercise.model';
@@ -9,8 +9,9 @@ import { ExerciseByTargetMuscleRequest } from '../models/dto/exercise.model';
 export class ExerciseService {
 
   private baseUrl = 'api/v1/exercises';
+  private httpClient: HttpClient = inject(HttpClient);
 
-  constructor(private httpClient: HttpClient) { }
+  constructor() { }
 
   getExercisesByTargetMuscle(request: ExerciseByTargetMuscleRequest ): Observable<any> {
     const url = `${this.baseUrl}/target/${request.targetMuscle}`
