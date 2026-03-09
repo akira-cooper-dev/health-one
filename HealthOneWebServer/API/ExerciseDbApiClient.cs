@@ -1,13 +1,14 @@
-using HealthOneWebServer.API.Remote;
+
+using HealthOneWebServer.API.Base;
 
 namespace HealthOneWebServer.API
 {
-  public class AscendApiClient : BaseApiClient
+  public class ExerciseDbApiClient : BaseApiClient
   {
     private static string baseUrl = "https://exercisedb.dev/api/v1";
     public static string GetBaseUri() { return baseUrl; }
 
-    public AscendApiClient(HttpClient httpClient) : base(httpClient) { }
+    public ExerciseDbApiClient(HttpClient httpClient) : base(httpClient) { }
 
   }
 }

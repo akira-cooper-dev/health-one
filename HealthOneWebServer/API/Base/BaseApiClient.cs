@@ -1,9 +1,8 @@
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
-namespace HealthOneWebServer.API.Remote
+namespace HealthOneWebServer.API.Base
 {
   public abstract class BaseApiClient
   {
@@ -16,7 +15,8 @@ namespace HealthOneWebServer.API.Remote
 
     public virtual async Task<TResponse> GetAsync<TResponse>(string requestUri)
     {
-      var response = await _httpClient.GetAsync(requestUri);
+      var request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+      var response = await _httpClient.SendAsync(request);
       response.EnsureSuccessStatusCode();
 
       var content = await response.Content.ReadAsStringAsync();

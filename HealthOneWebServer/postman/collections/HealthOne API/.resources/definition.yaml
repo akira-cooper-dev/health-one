@@ -1,0 +1,6 @@
+$kind: collection
+name: HealthOne API
+description: API collection for the HealthOne Web Server — an exercise database proxy API.
+variables:
+  - key: baseUrl
+    value: 'http://localhost:5144'

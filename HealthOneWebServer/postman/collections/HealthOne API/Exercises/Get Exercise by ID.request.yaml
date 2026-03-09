@@ -1,0 +1,6 @@
+$kind: http-request
+name: Get Exercise by ID
+description: Retrieve a single exercise by its unique ID.
+method: GET
+url: '{{baseUrl}}/api/v1/exercises/{{exerciseId}}'
+order: 1000
