@@ -7,7 +7,7 @@ import { ExerciseRequestQueryParameters } from '../models/dto/exercise-db-api/ex
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class ExerciseDbApiService {
   baseUrl = environment.apiUrl;
   httpClient: HttpClient = inject(HttpClient);
 
