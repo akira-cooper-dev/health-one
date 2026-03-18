@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { SelectModule } from 'primeng/select';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
-import { WorkoutRoutineModule } from './features/workout-routine/workout-routine.module';
 import { PanelCardModule } from './features/shared/panel-card/panel-card.module';
 import { ApiHttpInterceptor } from './core/api-http-interceptor';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
@@ -27,7 +26,6 @@ import { MatCardModule } from '@angular/material/card';
     SelectModule,
     ReactiveFormsModule,
     FormsModule,
-    WorkoutRoutineModule,
     PanelCardModule,
     MatButtonToggleModule,
     MatIconModule,
