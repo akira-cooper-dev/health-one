@@ -2,7 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environment/environment.development';
 import { Observable } from 'rxjs';
-import { ExerciseRequestQueryParameters } from '../models/dto/exercise-db-api/exercise-request-query-parameters.model';
+import { ExerciseAdvancedFilterRequest, ExerciseByBodypartRequest, ExerciseByEquipmentRequest, ExerciseByMuscleRequest, ExerciseFuzzyMatchingRequest, ExerciseOptionalSearchRequest } from '../models/dto/exercise-db-api/exercise-request.model';
+import { ExerciseResponse } from '../models/dto/exercise-db-api/exercise-response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,23 +14,49 @@ export class ExerciseDbApiService {
 
   constructor() { }
 
-  getAllExercises(): Observable<any> {
-    return this.httpClient.get(`${this.baseUrl}/exercises`);
-  }
-
   getExerciseById(id: string): Observable<any> {
     return this.httpClient.get(`${this.baseUrl}/exercises/${id}`);
   }
 
-  getExercisesByBodyParts(bodyPartName: string, queryParams: ExerciseRequestQueryParameters): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/bodyparts/${bodyPartName}/exercises`, { params: queryParams });
+  getExercisesByBodyParts(request: ExerciseByBodypartRequest): Observable<ExerciseResponse> {
+    return this.httpClient.post<ExerciseResponse>(`${this.baseUrl}/bodyparts/${request.bodyPartName}/exercises`, 
+      { params: { offset: request.offset, limit: request.limit } });
   }
 
-  getExercisesByEquipment(equipmentName: string, queryParams: ExerciseRequestQueryParameters): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/equipments/${equipmentName}/exercises`, { params: queryParams });
+  getExercisesByEquipment(request: ExerciseByEquipmentRequest): Observable<ExerciseResponse> {
+    return this.httpClient.post<ExerciseResponse>(`${this.baseUrl}/equipments/${request.equipmentName}/exercises`, 
+      { params: { offset: request.offset, limit: request.limit } });
   }
 
-  getExercisesByMuscle(muscleName: string, queryParams: ExerciseRequestQueryParameters): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/muscles/${muscleName}/exercises`, { params: queryParams });
+  getExercisesByMuscle(request: ExerciseByMuscleRequest): Observable<ExerciseResponse> {
+    return this.httpClient.post<ExerciseResponse>(`${this.baseUrl}/muscles/${request.muscleName}/exercises`, 
+      { params: { offset: request.offset, limit: request.limit, includeSecondary: request.includeSecondary } });
+  }
+
+  getExercisesByFuzzyMatching(request: ExerciseFuzzyMatchingRequest): Observable<ExerciseResponse> {
+    return this.httpClient.post<ExerciseResponse>(`${this.baseUrl}/exercises/search`, 
+      { params: { offset: request.offset, limit: request.limit, q: request.searchQuery, threshold: request.threshold } });
+  }
+
+  getExercisesByOptionalSearch(request: ExerciseOptionalSearchRequest): Observable<ExerciseResponse> {
+    return this.httpClient.post<ExerciseResponse>(`${this.baseUrl}/exercises`, 
+      { params: { offset: request.offset, limit: request.limit, search: request.searchQuery, sortBy: request.sortBy, sortOrder: request.sortOrder } });
+  }
+
+  getExercisesByAdvancedFiltering(request: ExerciseAdvancedFilterRequest): Observable<ExerciseResponse> {
+    return this.httpClient.post<ExerciseResponse>(`${this.baseUrl}/exercises/filter`, 
+      { params: { offset: request.offset, limit: request.limit, search: request.searchQuery, muscles: request.muscles, equipment: request.equipment, bodyParts: request.bodyParts, sortBy: request.sortBy, sortOrder: request.sortOrder } });
+  }
+
+  getAllMuscles(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/muscles`);
+  }
+
+  getAllEquipments(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/equipments`);
+  }
+
+  getAllBodyParts(): Observable<string[]> {
+    return this.httpClient.get<string[]>(`${this.baseUrl}/bodyparts`);
   }
 }
