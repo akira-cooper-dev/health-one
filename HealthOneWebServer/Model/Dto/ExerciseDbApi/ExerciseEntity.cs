@@ -1,4 +1,4 @@
-namespace HealthOneWebServer.Model.ExerciseDbApi.Exercise
+namespace HealthOneWebServer.Model.Dto.ExerciseDbApi
 {
   public class ExerciseEntity
   {

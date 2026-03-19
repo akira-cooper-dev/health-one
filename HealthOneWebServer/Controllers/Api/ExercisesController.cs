@@ -1,4 +1,4 @@
-using HealthOneWebServer.Model.ExerciseDbApi.Exercise;
+using HealthOneWebServer.Model.Dto.ExerciseDbApi;
 using HealthOneWebServer.Services.Exercises;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -117,5 +117,75 @@ namespace HealthOneWebServer.Controllers.API
         return BadRequest(ex.Message);
       }
     }
+
+    [HttpPost]
+    [Route("exercises/search")]
+    public async Task<IActionResult> GetExercisesByFuzzyMatching([FromBody] ExerciseRequestQueryParameters? queryParams)
+    {
+      try
+      {
+        var result = await _exercisesService.GetExercisesByFuzzyMatching(queryParams);
+        if (result == null)
+        {
+          return NotFound("No exercises found matching the specified search criteria.");
+        }
+        return Ok(result);
+      }
+      catch (Exception ex)
+      {
+        if (ex is HttpRequestException)
+        {
+          return NotFound(ex.Message);
+        }
+        return BadRequest(ex.Message);
+      }
+    }
+
+    [HttpPost]
+    [Route("exercises")]
+    public async Task<IActionResult> GetExercisesByOptionalSearch([FromBody] ExerciseRequestQueryParameters? queryParams)
+    {
+      try
+      {
+        var result = await _exercisesService.GetExercisesByOptionalSearch(queryParams);
+        if (result == null)
+        {
+          return NotFound("No exercises found matching the specified search criteria.");
+        }
+        return Ok(result);
+      }
+      catch (Exception ex)
+      {
+        if (ex is HttpRequestException)
+        {
+          return NotFound(ex.Message);
+        }
+        return BadRequest(ex.Message);
+      }
+    }
+
+    [HttpPost]
+    [Route("exercises/filter")]
+    public async Task<IActionResult> GetExercisesByAdvancedFiltering([FromBody] ExerciseRequestQueryParameters? queryParams)
+    {
+      try
+      {
+        var result = await _exercisesService.GetExercisesByAdvancedFiltering(queryParams);
+        if (result == null)
+        {
+          return NotFound("No exercises found matching the specified search criteria.");
+        }
+        return Ok(result);
+      }
+      catch (Exception ex)
+      {
+        if (ex is HttpRequestException)
+        {
+          return NotFound(ex.Message);
+        }
+        return BadRequest(ex.Message);
+      }
+    }
+
   }
 }

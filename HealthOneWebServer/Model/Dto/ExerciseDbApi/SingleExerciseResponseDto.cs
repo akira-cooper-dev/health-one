@@ -1,11 +1,9 @@
-using HealthOneWebServer.Model.ExerciseDbApi.Dto;
-
-namespace HealthOneWebServer.Model.ExerciseDbApi.Exercise
+namespace HealthOneWebServer.Model.Dto.ExerciseDbApi
 {
   public class SingleExerciseResponseDto
   {
     public bool Success { get; set; }
     public ExerciseEntity? Data { get; set; }
-    public MetaData? Metadata { get; set; }
+    public Metadata? Metadata { get; set; }
   }
 }

@@ -1,5 +1,5 @@
 using HealthOneWebServer.API;
-using HealthOneWebServer.Model.ExerciseDbApi.Exercise;
+using HealthOneWebServer.Model.Dto.ExerciseDbApi;
 
 namespace HealthOneWebServer.Services.Exercises
 {
@@ -39,5 +39,27 @@ namespace HealthOneWebServer.Services.Exercises
       var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
       return result;
     }
+
+    public async Task<MultipleExerciseResponseDto> GetExercisesByFuzzyMatching(ExerciseRequestQueryParameters queryParams)
+    {
+      string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/exercises/search?{ExerciseDbApiClient.CreateUriQueryString(queryParams)}";
+      var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
+      return result;
+    }
+
+    public async Task<MultipleExerciseResponseDto> GetExercisesByOptionalSearch(ExerciseRequestQueryParameters queryParams)
+    {
+      string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/exercises?{ExerciseDbApiClient.CreateUriQueryString(queryParams)}";
+      var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
+      return result;
+    }
+
+    public async Task<MultipleExerciseResponseDto> GetExercisesByAdvancedFiltering(ExerciseRequestQueryParameters queryParams)
+    {
+      string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/exercises/filter?{ExerciseDbApiClient.CreateUriQueryString(queryParams)}";
+      var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
+      return result;
+    }
+
   }
 }
