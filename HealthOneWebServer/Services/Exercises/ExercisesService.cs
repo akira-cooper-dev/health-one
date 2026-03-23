@@ -12,11 +12,16 @@ namespace HealthOneWebServer.Services.Exercises
       _client = client;
     }
 
-    public async Task<SingleExerciseResponseDto> GetExerciseById(string id)
+    public async Task<MultipleExerciseResponseDto> GetExerciseById(string id)
     {
       string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/exercises/{id}";
       var result = await _client.GetAsync<SingleExerciseResponseDto>(fullUri);
-      return result;
+      return new MultipleExerciseResponseDto
+      {
+        Data = result.Data is not null ? new List<ExerciseEntity>(1) { result.Data } : new List<ExerciseEntity>(),
+        Metadata = result.Metadata,
+        Success = result.Success
+      };
     }
 
     public async Task<MultipleExerciseResponseDto> GetExercisesByBodyParts(ExerciseRequestQueryParameters queryParams, string bodyPartName)

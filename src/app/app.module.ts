@@ -14,6 +14,8 @@ import { WorkoutPlannerComponent } from './features/workout-planner/workout-plan
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonToggleModule,
     MatIconModule,
     MatToolbarModule,
-    MatCardModule
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [
     {

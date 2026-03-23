@@ -1,7 +1,7 @@
 import { ExerciseEntity } from "../../entity/exercise-entity";
 
 export interface ExerciseResponse {
-    data: ExerciseEntity[] | ExerciseEntity;
+    data: ExerciseEntity[];    // searching by ID will return a single Exercise
     metadata: ExerciseMetadata;
     success: boolean;
 }
