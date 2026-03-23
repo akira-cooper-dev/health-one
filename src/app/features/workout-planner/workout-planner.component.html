@@ -1,31 +1,39 @@
-<div formGroupName="formGroup">
-  <mat-toolbar class="search-block mat-elevation-z4">
-    <mat-toolbar-row>
-      <mat-form-field class="search-field" appearance="outline">
-        <input
-          type="text"
-          matInput
-          placeholder="Search"
-          (keydown.enter)="sendSearchRequest()"
-          formControlName="searchQuery"
-        />
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-    </mat-toolbar-row>
-  </mat-toolbar>
+<div [formGroup]="formGroup">
+  <mat-form-field class="search-field" appearance="outline">
+    <input type="text" matInput placeholder="Search" (keydown.enter)="sendSearchRequest()"
+      formControlName="searchQuery" />
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
   <div class="search-results">
+    @if (exerciseResults$ | push; as exercises) {
+    @for (exercise of exercises; track exercise.exerciseId) {
     <mat-card class="card" appearance="outlined">
       <mat-card-header>
-        <mat-card-title>test</mat-card-title>
-        <mat-card-subtitle>test</mat-card-subtitle>
+        <mat-card-title>{{
+          getCapitalizedString(exercise.name)
+          }}</mat-card-title>
       </mat-card-header>
-      <mat-card-content> </mat-card-content>
-      <mat-card-actions>
-        <button mat-button>test</button>
+      <img mat-card-image style="padding: 0.5rem;" [src]="exercise.gifUrl" [alt]="exercise.name">
+      <mat-card-content>
+        <p>
+          <b>Muscles:</b>
+          {{ getCommaSeparatedString(exercise.targetMuscles) }}
+        </p>
+        <p>
+          <b>Equipment:</b>
+          {{ getCommaSeparatedString(exercise.equipments) }}
+        </p>
+      </mat-card-content>
+      <mat-card-actions class="card-actions">
+        <button matButton (click)="openExerciseInstructions(exercise)">Steps
+          <mat-icon>read_more</mat-icon>
+        </button>
+        <button matButton>Add
+          <mat-icon iconPositionEnd>add</mat-icon>
+        </button>
       </mat-card-actions>
     </mat-card>
-    @if (exerciseResults$ | async) {
-      <p>No exercises found.</p>
+    }
     }
   </div>
 </div>

@@ -16,25 +16,20 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { RxPush } from '@rx-angular/template/push';
+import { MatButtonModule } from '@angular/material/button';
+import { WorkoutPlannerModule } from './features/workout-planner/workout-planner.module';
+import { SharedModule } from 'primeng/api';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WorkoutPlannerComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SelectModule,
-    ReactiveFormsModule,
-    FormsModule,
-    PanelCardModule,
-    MatButtonToggleModule,
-    MatIconModule,
-    MatToolbarModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
+    SharedModule,
+    WorkoutPlannerModule
   ],
   providers: [
     {
@@ -43,7 +38,8 @@ import { MatInputModule } from '@angular/material/input';
       multi: true
     },
     provideHttpClient(),
-    provideAnimations()
+    provideAnimations(),
+    RxPush
   ],
   bootstrap: [AppComponent]
 })
