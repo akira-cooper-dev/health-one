@@ -34,7 +34,7 @@ import { MatInputModule } from '@angular/material/input';
     MatToolbarModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   providers: [
     {

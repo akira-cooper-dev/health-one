@@ -1,25 +1,31 @@
 <p-card>
-    <ng-template #header *ngIf="cardItem.imageUrl">
-        <img alt [src]="cardItem.imageUrl">
+  @if (cardItem.imageUrl) {
+    <ng-template #header>
+      <img alt [src]="cardItem.imageUrl">
     </ng-template>
-    <ng-template #title>
-        {{cardItem.title}}
+  }
+  <ng-template #title>
+    {{cardItem.title}}
+  </ng-template>
+  @if (cardItem.subtitle) {
+    <ng-template #subtitle>
+      {{cardItem.subtitle}}
     </ng-template>
-    <ng-template #subtitle *ngIf="cardItem.subtitle">
-        {{cardItem.subtitle}}
-    </ng-template>
-    <p>
-        {{cardItem.content}}
-    </p>
-    <ng-template #footer>
-        <div class="flex gap-4 mt-1" *ngFor="let button of cardItem.buttons">
-            <p-button
-            [label]="button.label"
-            [severity]="button.severity"
-            [icon]="button.icon"
-            (click)="button.action()"
-            >
-            </p-button>
-        </div>
-    </ng-template>
+  }
+  <p>
+    {{cardItem.content}}
+  </p>
+  <ng-template #footer>
+    @for (button of cardItem.buttons; track button) {
+      <div class="flex gap-4 mt-1">
+        <p-button
+          [label]="button.label"
+          [severity]="button.severity"
+          [icon]="button.icon"
+          (click)="button.action()"
+          >
+        </p-button>
+      </div>
+    }
+  </ng-template>
 </p-card>
