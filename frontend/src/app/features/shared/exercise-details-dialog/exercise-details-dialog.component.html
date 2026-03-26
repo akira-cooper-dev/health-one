@@ -1,8 +1,8 @@
-<h1 matDialogTitle>{{exercise.name}}</h1>
-
-<mat-dialog-content>
-    <h4>Instructions</h4>
+<div class="dialog-container">
+  <h1 matDialogTitle>{{ exercise.name }}</h1>
+  <mat-dialog-content>
     <p class="instruction-text">
-        {{getNormalizedText(exercise.instructions)}}
+      {{ getNormalizedText(exercise.instructions) }}
     </p>
-</mat-dialog-content>
+  </mat-dialog-content>
+</div>

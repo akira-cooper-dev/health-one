@@ -1,41 +1,69 @@
+@media (max-width: 740px) {
+  .card-actions button span.button-text {
+    display: none;
+  }
+
+  .card {
+    mat-card-title {
+      font-size: 1rem;
+    }
+    mat-card-content {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.search-bar-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.loading-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.search-bar {
+  width: 50%;
+}
+
+.search-button {
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+.search-results-container {
+  min-width: 670px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .search-results {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 2rem;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 2rem;
+    padding: 1rem;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  height: 100%; /* take full height of parent */
-}
+  height: 100%;
 
-.card mat-card-content {
+  mat-card-content {
   flex: 1 1 auto; /* take all available vertical space */
+  }
 }
 
 .card-actions {
   display: flex;
+  flex-direction: column;
   padding-top: 1rem;
-  justify-content: space-between; /* optional: space out buttons horizontally */
-  align-items: flex-end;           /* ensures buttons are at the bottom */
-}
-
-.search-block {
-    background: #fff;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.search-icon:disabled {
-    background: transparent;
-    outline: none;
-    border: none;
-    padding: 0;
-}
-
-.search-control {
-    padding-left: 1rem;
-    font-size: 1rem;
-    border: 0;
-    outline: none;
+  justify-content: center; /* optional: space out buttons horizontally */
+  align-content: space-evenly;
 }

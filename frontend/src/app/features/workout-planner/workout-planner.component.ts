@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, filter, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ExerciseDbApiService } from '../../services/exercise-db-api.service';
 import { ExerciseEntity } from '../../models/entity/exercise-entity';
 import { FormBuilder } from '@angular/forms';
@@ -8,6 +8,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ExerciseDetailsDialogComponent } from '../shared/exercise-details-dialog/exercise-details-dialog.component';
 import { rxState } from '@rx-angular/state';
 import { ExerciseResponse } from '../../models/dto/exercise-db-api/exercise-response';
+
+interface WorkoutPlannerState {
+  exerciseResult: ExerciseResponse | null;
+  isLoading: boolean;
+}
 
 @Component({
   selector: 'app-workout-planner',
@@ -25,30 +30,51 @@ export class WorkoutPlannerComponent implements OnInit {
     searchQuery: ''
   });
 
-  private state = rxState<{exerciseResult: ExerciseResponse | null}>(({set}) => set({
-    exerciseResult: null
-  }))
+  private state = rxState<WorkoutPlannerState>
+    (({ set }) => set({
+      exerciseResult: null,
+      isLoading: false
+    }))
   exerciseResults$: Observable<ExerciseEntity[]> = this.state.select('exerciseResult', 'data');
+  isLoading$: Observable<boolean> = this.state.select('isLoading');
 
-  constructor(private apiService: ExerciseDbApiService) {}
+  constructor(private apiService: ExerciseDbApiService) { }
 
   ngOnInit(): void {
 
   }
 
   sendSearchRequest(): void {
-    this.exerciseResults$ = this.apiService.getExercisesByFuzzyMatching({
-      searchQuery: this.formGroup.get('searchQuery')?.value,
-      threshold: 0,
-      limit: 25
-    }).pipe(
+    of(null).pipe(
       takeUntilDestroyed(this.destroyRef),
-      map(response => response.data),
-    )
+      tap(() => this.state.set({ exerciseResult: null, isLoading: true })),
+      switchMap(() => this.apiService.getExercisesByFuzzyMatching({
+        searchQuery: this.formGroup.get('searchQuery')?.value,
+        threshold: 0,
+        limit: 25
+      })),
+      catchError(error => {
+        this.state.set({ exerciseResult: null, isLoading: false });
+        return of(null);
+      }),
+      filter(response => !!response),
+      map(response => {
+        const normalizedResponse = response.data.map(exercise => {
+          return {
+            ...exercise,
+            name: this.getCapitalizedString(exercise.name)
+          }
+        })
+        return { ...response, data: normalizedResponse };
+      })
+    ).subscribe(response => {
+      this.state.set({ exerciseResult: response, isLoading: false });
+    });
   }
 
-  getCapitalizedString(name: string): string {
-    const words = name.toLowerCase().split(' ');
+  getCapitalizedString(str: string): string {
+    if (!str) return '';
+    const words = str.toLowerCase().split(' ');
     for (let i = 0; i < words.length; i++) {
       words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
     }

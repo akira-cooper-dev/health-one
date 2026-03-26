@@ -1,39 +1,68 @@
 <div [formGroup]="formGroup">
-  <mat-form-field class="search-field" appearance="outline">
-    <input type="text" matInput placeholder="Search" (keydown.enter)="sendSearchRequest()"
-      formControlName="searchQuery" />
-    <mat-icon matSuffix>search</mat-icon>
-  </mat-form-field>
-  <div class="search-results">
-    @if (exerciseResults$ | push; as exercises) {
-    @for (exercise of exercises; track exercise.exerciseId) {
-    <mat-card class="card" appearance="outlined">
-      <mat-card-header>
-        <mat-card-title>{{
-          getCapitalizedString(exercise.name)
-          }}</mat-card-title>
-      </mat-card-header>
-      <img mat-card-image style="padding: 0.5rem;" [src]="exercise.gifUrl" [alt]="exercise.name">
-      <mat-card-content>
-        <p>
-          <b>Muscles:</b>
-          {{ getCommaSeparatedString(exercise.targetMuscles) }}
-        </p>
-        <p>
-          <b>Equipment:</b>
-          {{ getCommaSeparatedString(exercise.equipments) }}
-        </p>
-      </mat-card-content>
-      <mat-card-actions class="card-actions">
-        <button matButton (click)="openExerciseInstructions(exercise)">Steps
-          <mat-icon>read_more</mat-icon>
-        </button>
-        <button matButton>Add
-          <mat-icon>add</mat-icon>
-        </button>
-      </mat-card-actions>
-    </mat-card>
-    }
-    }
+  <div class="search-bar-container">
+    <mat-form-field class="search-bar" appearance="outline">
+      <input
+        type="text"
+        matInput
+        placeholder="Search"
+        (keydown.enter)="sendSearchRequest()"
+        formControlName="searchQuery"
+      />
+      <button
+        class="search-button"
+        mat-icon-button
+        matSuffix
+        (click)="sendSearchRequest()"
+      >
+        <mat-icon class="search-button-icon" matSuffix>search</mat-icon>
+      </button>
+    </mat-form-field>
   </div>
 </div>
+@if (isLoading$ | push) {
+  <div class="loading-container">
+    <mat-spinner diameter="100"></mat-spinner>
+  </div>
+} @else {
+  <div class="search-results-container">
+    <div class="search-results">
+      @if (exerciseResults$ | push; as exercises) {
+        @for (exercise of exercises; track exercise.exerciseId) {
+          <mat-card class="card" appearance="outlined">
+            <mat-card-header>
+              <mat-card-title>{{
+                getCapitalizedString(exercise.name)
+              }}</mat-card-title>
+            </mat-card-header>
+            <img
+              mat-card-image
+              style="padding: 0.5rem"
+              [src]="exercise.gifUrl"
+              [alt]="exercise.name"
+            />
+            <mat-card-content>
+              <p>
+                <b>Muscles:</b>
+                {{ getCommaSeparatedString(exercise.targetMuscles) }}
+              </p>
+              <p>
+                <b>Equipment:</b>
+                {{ getCommaSeparatedString(exercise.equipments) }}
+              </p>
+            </mat-card-content>
+            <mat-card-actions class="card-actions" layout="row">
+              <button mat-button (click)="openExerciseInstructions(exercise)">
+                <span class="button-text">Details</span>
+                <mat-icon>read_more</mat-icon>
+              </button>
+              <button mat-button>
+                <span class="button-text">Add</span>
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      }
+    </div>
+  </div>
+}
