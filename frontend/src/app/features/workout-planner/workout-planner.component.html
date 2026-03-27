@@ -54,11 +54,13 @@
             </mat-card-content>
             <mat-card-actions class="card-actions" layout="row">
               <button mat-button (click)="openExerciseInstructions(exercise)">
-                <span class="button-text">Details</span>
+                <span class="button-text">Instructions</span>
                 <mat-icon>read_more</mat-icon>
               </button>
               <button mat-button>
-                <span class="button-text">Add</span>
+                <span class="button-text" (click)="addExercise(exercise)"
+                  >Add</span
+                >
                 <mat-icon>add</mat-icon>
               </button>
             </mat-card-actions>

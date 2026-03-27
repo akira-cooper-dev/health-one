@@ -90,7 +90,11 @@ export class WorkoutPlannerComponent implements OnInit {
     this.dialogService.open(ExerciseDetailsDialogComponent, {
       data: {
         exercise: exercise
-      }
+      },
     });
+  }
+
+  addExercise(exercise: ExerciseEntity): Observable<boolean> {
+    return null;
   }
 }

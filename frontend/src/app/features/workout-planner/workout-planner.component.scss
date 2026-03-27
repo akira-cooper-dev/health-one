@@ -56,7 +56,11 @@
   height: 100%;
 
   mat-card-content {
-  flex: 1 1 auto; /* take all available vertical space */
+    flex: 1 1 auto; /* take all available vertical space */
+    p {
+      font-weight: 200;
+      font-style: italic;
+    }
   }
 }
 
@@ -66,4 +70,5 @@
   padding-top: 1rem;
   justify-content: center; /* optional: space out buttons horizontally */
   align-content: space-evenly;
+  gap: 0.25rem;
 }
