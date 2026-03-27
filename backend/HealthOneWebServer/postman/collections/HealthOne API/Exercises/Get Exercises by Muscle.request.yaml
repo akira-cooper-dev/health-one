@@ -1,0 +1,6 @@
+$kind: http-request
+name: Get Exercises by Muscle
+description: 'Get a paginated list of exercises filtered by target muscle. Note: This endpoint is implemented in the service layer but not yet wired to the controller.'
+method: GET
+url: '{{baseUrl}}/api/v1/muscles/{{muscleName}}/exercises'
+order: 4000

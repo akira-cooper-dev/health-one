@@ -1,0 +1,74 @@
+@media (max-width: 740px) {
+  .card-actions button span.button-text {
+    display: none;
+  }
+
+  .card {
+    mat-card-title {
+      font-size: 1rem;
+    }
+    mat-card-content {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.search-bar-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.loading-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.search-bar {
+  width: 50%;
+}
+
+.search-button {
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+}
+
+.search-results-container {
+  min-width: 670px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search-results {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  mat-card-content {
+    flex: 1 1 auto; /* take all available vertical space */
+    p {
+      font-weight: 200;
+      font-style: italic;
+    }
+  }
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  padding-top: 1rem;
+  justify-content: center; /* optional: space out buttons horizontally */
+  align-content: space-evenly;
+  gap: 0.25rem;
+}
