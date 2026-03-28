@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { WorkoutSearchComponent } from './workout-search.component';
+import { ExerciseSearchComponent } from './exercise-search.component';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @NgModule({
-  declarations: [WorkoutSearchComponent],
+  declarations: [ExerciseSearchComponent],
   imports: [
     CommonModule,
     MatCardModule,
@@ -24,4 +24,4 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
     MatProgressSpinner
   ]
 })
-export class WorkoutSearchModule { }
+export class ExerciseSearchModule { }

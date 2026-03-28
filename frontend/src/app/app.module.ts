@@ -6,7 +6,7 @@ import { ApiHttpInterceptor } from './core/api-http-interceptor';
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { RxPush } from '@rx-angular/template/push';
-import { WorkoutSearchModule } from './features/workout/workout-search/workout-search.module';
+import { ExerciseSearchModule } from './features/exercise-search/exercise-search.module';
 import { SharedModule } from './features/shared/shared.module';
 
 @NgModule({
@@ -16,7 +16,7 @@ import { SharedModule } from './features/shared/shared.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    WorkoutSearchModule,
+    ExerciseSearchModule,
     SharedModule
   ],
   providers: [
