@@ -10,74 +10,76 @@ Thumbs.db
 # =========================
 # Node / Angular (frontend)
 # =========================
-frontend/node_modules/
-frontend/dist/
-frontend/.angular/
-frontend/.cache/
-frontend/.vite/
-frontend/coverage/
-
-# Angular environment files (optional)
-frontend/src/environments/*.local.ts
+**/node_modules/
+**/dist/
+**/.angular/
+**/.cache/
+**/.vite/
+**/coverage/
 
 # Package managers
-frontend/package-lock.json
-frontend/yarn.lock
-frontend/pnpm-lock.yaml
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
 
 # =========================
 # .NET / C# (backend)
 # =========================
-backend/HealthOneWebServer/bin/
-backend/HealthOneWebServer/obj/
-backend/HealthOneWebServer/out/
+**/bin/
+**/obj/
+**/out/
 
 # User-specific files
-backend/HealthOneWebServer/*.user
-backend/HealthOneWebServer/*.suo
-backend/HealthOneWebServer/*.userosscache
-backend/HealthOneWebServer/*.sln.docstates
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
-# Rider / VS Code (optional)
-backend/HealthOneWebServer/.idea/
-backend/HealthOneWebServer/.vscode/
+# Rider
+**/.idea/
 
 # =========================
 # Visual Studio
 # =========================
-.vs/
+**/.vs/
 *.user
 *.suo
+
 
 # =========================
 # VS Code (global)
 # =========================
-.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-!.vscode/launch.json
-!.vscode/tasks.json
+**/.vscode/*
+!**/.vscode/extensions.json
+!**/.vscode/settings.json
+!**/.vscode/launch.json
+!**/.vscode/tasks.json
 
 # =========================
 # Environment / secrets
 # =========================
-.env
-.env.*
-frontend/.env
-backend/HealthOneWebServer/appsettings.Development.json
+*.env
+*.env.*
+**/.env
 
 # =========================
 # Build / artifacts
 # =========================
-dist/
-build/
-publish/
+**/dist/
+**/build/
+**/publish/
 
 # =========================
 # Logs
 # =========================
-logs/
+**/logs/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# =========================
+# Postman (backend)
+# =========================
+**/postman
+**/.postman
