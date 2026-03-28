@@ -1,27 +1,27 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { catchError, filter, map, Observable, of, switchMap, tap } from 'rxjs';
-import { ExerciseDbApiService } from '../../services/exercise-db-api.service';
-import { ExerciseEntity } from '../../models/entity/exercise-entity';
+import { ExerciseDbApiService } from '../../../services/exercise-db-api.service';
+import { ExerciseEntity } from '../../../models/entity/exercise-entity';
 import { FormBuilder } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
-import { ExerciseDetailsDialogComponent } from '../shared/exercise-details-dialog/exercise-details-dialog.component';
+import { ExerciseDetailsDialogComponent } from '../../shared/exercise-details-dialog/exercise-details-dialog.component';
 import { rxState } from '@rx-angular/state';
-import { ExerciseResponse } from '../../models/dto/exercise-db-api/exercise-response';
+import { ExerciseResponse } from '../../../models/dto/exercise-db-api/exercise-response';
 
-interface WorkoutPlannerState {
+interface WorkoutSearchState {
   exerciseResult: ExerciseResponse | null;
   isLoading: boolean;
 }
 
 @Component({
-  selector: 'app-workout-planner',
+  selector: 'app-workout-search',
   standalone: false,
-  templateUrl: './workout-planner.component.html',
-  styleUrl: './workout-planner.component.scss',
+  templateUrl: './workout-search.component.html',
+  styleUrl: './workout-search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WorkoutPlannerComponent implements OnInit {
+export class WorkoutSearchComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   fb = inject(FormBuilder);
   dialogService = inject(MatDialog);
@@ -30,7 +30,7 @@ export class WorkoutPlannerComponent implements OnInit {
     searchQuery: ''
   });
 
-  private state = rxState<WorkoutPlannerState>
+  private state = rxState<WorkoutSearchState>
     (({ set }) => set({
       exerciseResult: null,
       isLoading: false

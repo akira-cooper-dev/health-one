@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WorkoutPlannerComponent } from './workout-planner.component';
+import { WorkoutPlannerComponent } from './workout-search.component';
 
 describe('WorkoutPlannerComponent', () => {
   let component: WorkoutPlannerComponent;
@@ -10,7 +10,7 @@ describe('WorkoutPlannerComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [WorkoutPlannerComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(WorkoutPlannerComponent);
     component = fixture.componentInstance;
