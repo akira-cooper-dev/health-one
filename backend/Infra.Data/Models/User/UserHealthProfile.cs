@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infra.Data.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infra.Data.Models.User
 {
-    public class UserHealthProfile
+    public class UserHealthProfile : Entity
     {
-        [Key]
-        public required int Id { get; set; }
-
         [ForeignKey("User")]
         public int UserId { get; set; }
         public User User { get; set; }

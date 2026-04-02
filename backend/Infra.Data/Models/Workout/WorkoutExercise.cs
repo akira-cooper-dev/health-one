@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infra.Data.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infra.Data.Models.Workout
 {
-    public class WorkoutExercise
+    public class WorkoutExercise : Entity
     {
-        [Key]
-        public required int Id { get; set; }
-
         [ForeignKey("Workout")]
         public int WorkoutId { get; set; }
         public Workout Workout { get; set; }

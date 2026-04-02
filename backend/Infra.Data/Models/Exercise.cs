@@ -1,11 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infra.Data.Models.Base;
 
 namespace Infra.Data.Models
 {
-    public class Exercise
+    public class Exercise : NamedEntity
     {
-        [Key]
-        public required string Id { get; set; } // this ID is used to make API calls to get actual info for exercise (since we're not allowed to store data as per Terms of Use)
+        public required string ApiId { get; set; } // this ID is used to make API calls to get actual info for exercise (since we're not allowed to store data as per Terms of Use)
         public string Name { get; set; }
         public int Time { get; set; }   // length of exercise
 

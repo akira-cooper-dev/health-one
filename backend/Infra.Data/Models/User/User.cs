@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Infra.Data.Models.Base;
 
 namespace Infra.Data.Models.User
 {
-    public class User
+    public class User : Entity
     {
-        [Key]
-        public required string Id { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }
     }
