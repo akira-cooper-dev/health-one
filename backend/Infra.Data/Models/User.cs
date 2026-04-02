@@ -1,6 +1,6 @@
 ﻿using Infra.Data.Models.Base;
 
-namespace Infra.Data.Models.User
+namespace Infra.Data.Models
 {
     public class User : Entity
     {

@@ -1,7 +1,7 @@
 ﻿using Infra.Data.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Infra.Data.Models.Workout
+namespace Infra.Data.Models
 {
     public class WorkoutExercise : Entity
     {

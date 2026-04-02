@@ -1,6 +1,4 @@
 ﻿using Infra.Data.Models;
-using Infra.Data.Models.User;
-using Infra.Data.Models.Workout;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data

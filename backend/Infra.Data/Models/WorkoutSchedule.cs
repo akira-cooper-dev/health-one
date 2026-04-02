@@ -1,4 +1,4 @@
-﻿namespace Infra.Data.Models.Workout
+﻿namespace Infra.Data.Models
 {
     public class WorkoutSchedule
     {

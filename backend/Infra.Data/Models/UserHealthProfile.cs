@@ -1,7 +1,7 @@
 ﻿using Infra.Data.Models.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Infra.Data.Models.User
+namespace Infra.Data.Models
 {
     public class UserHealthProfile : Entity
     {
