@@ -1,7 +1,7 @@
 
-using HealthOneWebServer.API.Base;
+using HealthOneWebServer.ApiClient.Base;
 
-namespace HealthOneWebServer.API
+namespace HealthOneWebServer.ApiClient
 {
   public class ExerciseDbApiClient : BaseApiClient
   {

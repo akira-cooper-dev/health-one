@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 
 namespace Infra.Data.Repositories.Base
 {
-    public class CRUDRepository<TEntity> : ICRUDRepository<TEntity> where TEntity : Entity
+    public abstract class CRUDRepository<TEntity> : ICRUDRepository<TEntity> where TEntity : Entity
     {
-        private PostgresDbContext _dbContext;
+        protected AppDbContext _dbContext;
 
-        public CRUDRepository(PostgresDbContext context)
+        public CRUDRepository(AppDbContext context)
         {
             _dbContext = context;
         }

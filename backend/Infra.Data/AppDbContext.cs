@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Data
 {
-    public class PostgresDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public PostgresDbContext(DbContextOptions<PostgresDbContext> options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
         }

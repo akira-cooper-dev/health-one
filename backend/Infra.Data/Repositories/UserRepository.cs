@@ -5,7 +5,7 @@ namespace Infra.Data.Repositories
 {
     public class UserRepository : CRUDRepository<User>
     {
-        public UserRepository(PostgresDbContext context) : base(context)
+        public UserRepository(AppDbContext context) : base(context)
         {
         }
     }

@@ -5,7 +5,7 @@ namespace Infra.Data.Repositories
 {
     public class WorkoutRepository : CRUDRepository<Workout>
     {
-        public WorkoutRepository(PostgresDbContext context) : base(context)
+        public WorkoutRepository(AppDbContext context) : base(context)
         {
         }
     }

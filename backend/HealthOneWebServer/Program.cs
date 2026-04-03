@@ -1,8 +1,10 @@
-using HealthOneWebServer.API;
-using HealthOneWebServer.Services.Exercises;
+using HealthOneWebServer.ApiClient;
+using HealthOneWebServer.Services.Exercise;
 using Infra.Data;
+using Infra.Data.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,11 +23,13 @@ connectionStringBuilder.Username = dbUser;
 connectionStringBuilder.Password = dbPassword;
 var connectionString = connectionStringBuilder.ToString();
 
-builder.Services.AddDbContext<PostgresDbContext>(optionsBuilder =>
+// add db context with connection string
+builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
     optionsBuilder.UseNpgsql(connectionString);
 });
 
+// Allow CORS for Angular development server
 var allowOrigin = "angular-dev";
 builder.Services.AddCors(options =>
 {
@@ -35,9 +39,24 @@ builder.Services.AddCors(options =>
     });
 });
 
+var baseRepoAssembly = Assembly.GetAssembly(typeof(CRUDRepository<>));
+var repoTypes = baseRepoAssembly.GetTypes().Where(
+    t => t.IsClass &&
+    !t.IsAbstract &&
+    t.BaseType != null &&
+    t.BaseType.IsGenericType &&
+    t.BaseType.GetGenericTypeDefinition() == typeof(CRUDRepository<>)
+);
+
+foreach (var repoType in repoTypes)
+{
+    builder.Services.AddScoped(repoType);
+}
+
 // Add services to the container.
+builder.Services.AddScoped(typeof(ICRUDRepository<>), typeof(CRUDRepository<>));
 builder.Services.AddHttpClient<ExerciseDbApiClient>();
-builder.Services.AddScoped<ExercisesService>();
+builder.Services.AddScoped<ExerciseService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
