@@ -1,5 +1,5 @@
 using HealthOneWebServer.ApiClient;
-using HealthOneWebServer.Services.Exercise;
+using HealthOneWebServer.Services;
 using Infra.Data;
 using Infra.Data.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +39,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+// Add all repository classes to DI container
 var baseRepoAssembly = Assembly.GetAssembly(typeof(CRUDRepository<>));
 var repoTypes = baseRepoAssembly.GetTypes().Where(
     t => t.IsClass &&
@@ -47,11 +48,12 @@ var repoTypes = baseRepoAssembly.GetTypes().Where(
     t.BaseType.IsGenericType &&
     t.BaseType.GetGenericTypeDefinition() == typeof(CRUDRepository<>)
 );
-
 foreach (var repoType in repoTypes)
 {
     builder.Services.AddScoped(repoType);
 }
+
+
 
 // Add services to the container.
 builder.Services.AddScoped(typeof(ICRUDRepository<>), typeof(CRUDRepository<>));

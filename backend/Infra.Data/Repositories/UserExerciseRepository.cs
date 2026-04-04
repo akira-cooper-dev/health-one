@@ -15,7 +15,7 @@ namespace Infra.Data.Repositories
             return await _dbContext.Set<UserExercise>().Where(ue => ue.UserId == userId).ToListAsync();
         }
 
-        public async Task<UserExercise> AddExerciseToUser(UserExercise userExercise)
+        public async Task<UserExercise> AddUserExercise(UserExercise userExercise)
         {
             return await AddAsync(userExercise);
         }

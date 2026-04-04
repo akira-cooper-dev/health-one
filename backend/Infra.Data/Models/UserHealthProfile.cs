@@ -1,4 +1,5 @@
 ﻿using Infra.Data.Models.Base;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infra.Data.Models
@@ -6,7 +7,8 @@ namespace Infra.Data.Models
     public class UserHealthProfile : Entity
     {
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        [Required]
+        public required int UserId { get; set; }
         public User User { get; set; }
 
         public int Age { get; set; }

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ExerciseEntity } from '../../../models/entity/exercise-entity';
+import { ExerciseEntity } from '../../../models/dto/exercise-db-api/exercise-entity-dto';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({

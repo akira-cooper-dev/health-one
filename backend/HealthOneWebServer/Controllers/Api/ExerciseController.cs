@@ -1,6 +1,6 @@
 using HealthOneWebServer.Model.Dto;
 using HealthOneWebServer.Model.Dto.ExerciseDbApi;
-using HealthOneWebServer.Services.Exercise;
+using HealthOneWebServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
