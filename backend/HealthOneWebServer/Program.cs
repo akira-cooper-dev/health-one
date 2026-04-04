@@ -2,6 +2,7 @@ using HealthOneWebServer.ApiClient;
 using HealthOneWebServer.Services;
 using Infra.Data;
 using Infra.Data.Repositories.Base;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System.Reflection;
@@ -59,7 +60,10 @@ foreach (var repoType in repoTypes)
 builder.Services.AddScoped(typeof(ICRUDRepository<>), typeof(CRUDRepository<>));
 builder.Services.AddHttpClient<ExerciseDbApiClient>();
 builder.Services.AddScoped<ExerciseService>();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
