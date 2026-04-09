@@ -1,4 +1,4 @@
-﻿using HealthOneWebServer.Model.Dto;
+﻿using HealthOneWebServer.Model.Dto.UserExercise;
 using HealthOneWebServer.Services;
 using Microsoft.AspNetCore.Mvc;
 

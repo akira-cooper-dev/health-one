@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { WorkoutPlannerComponent } from './features/workout-planner/workout-planner.component';
+import { ExerciseSearchComponent } from './features/exercise-search/exercise-search.component';
 
 const routes: Routes = [
-  {path: "workout", component: WorkoutPlannerComponent}
+  { path: "exercise/search", component: ExerciseSearchComponent }
 ];
 
 @NgModule({

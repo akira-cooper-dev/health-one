@@ -1,4 +1,4 @@
-﻿namespace HealthOneWebServer.Model.Dto
+﻿namespace HealthOneWebServer.Model.Dto.Exercise
 {
     public class ExerciseDto
     {

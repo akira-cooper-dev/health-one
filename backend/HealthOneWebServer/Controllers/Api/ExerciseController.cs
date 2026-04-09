@@ -1,5 +1,4 @@
-using HealthOneWebServer.Model.Dto;
-using HealthOneWebServer.Model.Dto.ExerciseDbApi;
+using HealthOneWebServer.Model.Dto.ExerciseDbV1Api;
 using HealthOneWebServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -191,23 +190,23 @@ namespace HealthOneWebServer.Controllers.API
         #endregion
 
         #region Database
-        [HttpPost]
-        public async Task<IActionResult> AddExercise([FromBody] ExerciseDto exercise)
-        {
-            try
-            {
-                var result = await _exercisesService.AddExercise(exercise);
-                if (result == null)
-                {
-                    return BadRequest("Failed to add the exercise. Please check the provided data.");
-                }
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> AddExercise([FromBody] ExerciseDto exercise)
+        //{
+        //    try
+        //    {
+        //        var result = await _exercisesService.AddExercise(exercise);
+        //        if (result == null)
+        //        {
+        //            return BadRequest("Failed to add the exercise. Please check the provided data.");
+        //        }
+        //        return Ok(result);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
 
         #endregion
     }

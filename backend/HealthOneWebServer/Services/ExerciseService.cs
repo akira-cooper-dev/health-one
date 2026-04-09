@@ -1,72 +1,53 @@
-using HealthOneWebServer.ApiClient;
-using HealthOneWebServer.Model.Dto.ExerciseDbApi;
+using HealthOneWebServer.ApiClient.AscendApi;
+using HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api;
 using Infra.Data.Repositories;
 
 namespace HealthOneWebServer.Services
 {
     public class ExerciseService
     {
-        private readonly ExerciseDbApiClient _client;
+        private readonly ExerciseDbV1ApiClient _client; // for external API requests
         private readonly ExerciseRepository _exerciseRepo;
+        private readonly string _baseUri = ExerciseDbV1ApiClient.GetBaseUri();
 
-        public ExerciseService(ExerciseDbApiClient client, ExerciseRepository exerciseRepo)
+        public ExerciseService(ExerciseDbV1ApiClient client, ExerciseRepository exerciseRepo)
         {
             _client = client;
             _exerciseRepo = exerciseRepo;
         }
 
-        #region ExerciseDbApi
-        public async Task<MultipleExerciseResponseDto> GetExerciseById(string id)
+        #region ExerciseDbV1Api
+        public async Task<ExerciseResponseDto> GetExerciseById(string id)
         {
-            string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/exercises/{id}";
-            var result = await _client.GetAsync<SingleExerciseResponseDto>(fullUri);
-            return new MultipleExerciseResponseDto
-            {
-                Data = result.Data is not null ? new List<ExerciseEntity>(1) { result.Data } : new List<ExerciseEntity>(),
-                Metadata = result.Metadata,
-                Success = result.Success
-            };
+            string fullUri = $"{_baseUri}/exercises/{id}";
+            return await _client.GetAsync<ExerciseResponseDto>(fullUri);
         }
 
-        public async Task<MultipleExerciseResponseDto> GetExercisesByBodyParts(ExerciseRequestQueryParameters queryParams, string bodyPartName)
+        public async Task<ExerciseResponseDto> GetExercisesByEquipments(ExerciseByEquipmentRequestDto request)
         {
-            string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/bodyparts/{bodyPartName}/exercises?{ApiClient.Base.BaseApiClient.CreateUriQueryString(queryParams)}";
-            var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
+            string fullUri = $"{_baseUri}/exercises/equipments?{ApiClient.Base.BaseApiClient.CreateUriQueryString(request)}";
+            var result = await _client.GetAsync<ExerciseResponseDto>(fullUri);
             return result;
         }
 
-        public async Task<MultipleExerciseResponseDto> GetExercisesByEquipment(ExerciseRequestQueryParameters queryParams, string equipmentName)
+        public async Task<ExerciseResponseDto> GetExercisesByMuscles(ExerciseByMuscleRequestDto request)
         {
-            string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/equipments/{equipmentName}/exercises?{ApiClient.Base.BaseApiClient.CreateUriQueryString(queryParams)}";
-            var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
+            string fullUri = $"{_baseUri}/exercises/muscles?{ApiClient.Base.BaseApiClient.CreateUriQueryString(request)}";
+            var result = await _client.GetAsync<ExerciseResponseDto>(fullUri);
             return result;
         }
 
-        public async Task<MultipleExerciseResponseDto> GetExercisesByMuscle(ExerciseRequestQueryParameters queryParams, string muscleName)
+        public async Task<ExerciseResponseDto> GetExercisesBySearchFuzzyMatching(ExerciseSearchRequestDto request)
         {
-            string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/muscles/{muscleName}/exercises?{ApiClient.Base.BaseApiClient.CreateUriQueryString(queryParams)}";
-            var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
+            string fullUri = $"{ExerciseDbV1ApiClient.GetBaseUri()}/exercises/search?{ApiClient.Base.BaseApiClient.CreateUriQueryString(request)}";
+            var result = await _client.GetAsync<ExerciseResponseDto>(fullUri);
             return result;
         }
 
-        public async Task<MultipleExerciseResponseDto> GetExercisesByFuzzyMatching(ExerciseRequestQueryParameters queryParams)
+        public async Task<ExerciseResponseDto> GetExercisesByAdvancedFiltering(ExerciseFilterRequestDto request)
         {
-            string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/exercises/search?{ApiClient.Base.BaseApiClient.CreateUriQueryString(queryParams)}";
-            var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
-            return result;
-        }
-
-        public async Task<MultipleExerciseResponseDto> GetExercisesByOptionalSearch(ExerciseRequestQueryParameters queryParams)
-        {
-            string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/exercises?{ApiClient.Base.BaseApiClient.CreateUriQueryString(queryParams)}";
-            var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
-            return result;
-        }
-
-        public async Task<MultipleExerciseResponseDto> GetExercisesByAdvancedFiltering(ExerciseRequestQueryParameters queryParams)
-        {
-            string fullUri = $"{ExerciseDbApiClient.GetBaseUri()}/exercises/filter?{ApiClient.Base.BaseApiClient.CreateUriQueryString(queryParams)}";
-            var result = await _client.GetAsync<MultipleExerciseResponseDto>(fullUri);
+            string fullUri = $"{ExerciseDbV1ApiClient.GetBaseUri()}/exercises?{ApiClient.Base.BaseApiClient.CreateUriQueryString(request)}";
+            var result = await _client.GetAsync<ExerciseResponseDto>(fullUri);
             return result;
         }
         #endregion

@@ -1,4 +1,4 @@
-using HealthOneWebServer.ApiClient;
+using HealthOneWebServer.ApiClient.AscendApi;
 using HealthOneWebServer.Services;
 using Infra.Data;
 using Infra.Data.Repositories.Base;
@@ -45,20 +45,21 @@ var baseRepoAssembly = Assembly.GetAssembly(typeof(CRUDRepository<>));
 var repoTypes = baseRepoAssembly.GetTypes().Where(
     t => t.IsClass &&
     !t.IsAbstract &&
+    !t.IsInterface &&
     t.BaseType != null &&
     t.BaseType.IsGenericType &&
     t.BaseType.GetGenericTypeDefinition() == typeof(CRUDRepository<>)
 );
 foreach (var repoType in repoTypes)
 {
+
     builder.Services.AddScoped(repoType);
 }
 
 
 
 // Add services to the container.
-builder.Services.AddScoped(typeof(ICRUDRepository<>), typeof(CRUDRepository<>));
-builder.Services.AddHttpClient<ExerciseDbApiClient>();
+builder.Services.AddHttpClient<ExerciseDbV1ApiClient>();
 builder.Services.AddScoped<ExerciseService>();
 builder.Services.AddControllers(options =>
 {

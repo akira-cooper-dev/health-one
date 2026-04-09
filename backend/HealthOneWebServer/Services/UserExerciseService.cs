@@ -1,4 +1,4 @@
-﻿using HealthOneWebServer.Model.Dto;
+﻿using HealthOneWebServer.Model.Dto.UserExercise;
 using Infra.Data.Models;
 using Infra.Data.Repositories;
 

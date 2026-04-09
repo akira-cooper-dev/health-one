@@ -27,7 +27,7 @@ namespace HealthOneWebServer.ApiClient.Base
             });
         }
 
-        public static string CreateUriQueryString<T>(T obj)
+        public static string CreateUriQueryString<TRequest>(TRequest obj)
         {
             if (obj == null)
             {

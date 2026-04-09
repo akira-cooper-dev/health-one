@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HealthOneWebServer.Model.Dto
+namespace HealthOneWebServer.Model.Dto.UserExercise
 {
     public class CreateUserExerciseDto
     {
