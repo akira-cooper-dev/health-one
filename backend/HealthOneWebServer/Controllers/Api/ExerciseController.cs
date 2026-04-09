@@ -1,4 +1,4 @@
-using HealthOneWebServer.Model.Dto.ExerciseDbV1Api;
+using HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api;
 using HealthOneWebServer.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -38,11 +38,18 @@ namespace HealthOneWebServer.Controllers.API
             }
             catch (HttpRequestException ex)
             {
-                if (ex.StatusCode == HttpStatusCode.NotFound)
+                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    return BadRequest(ex.Message);
+                }
+                else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
                     return NotFound(ex.Message);
                 }
-                return BadRequest(ex.Message);
+                else
+                {
+                    return StatusCode(500, ex.Message);
+                }
             }
             catch (Exception ex)
             {
@@ -51,140 +58,138 @@ namespace HealthOneWebServer.Controllers.API
         }
 
         [HttpPost]
-        [Route("bodypart/{bodyPartName}")]
-        public async Task<IActionResult> GetExercisesByBodyParts([FromBody] ExerciseRequestQueryParameters? queryParams, string bodyPartName)
+        [Route("equipment")]
+        public async Task<IActionResult> GetExercisesByEquipment([FromBody] ExerciseByEquipmentRequestDto request)
         {
             try
             {
-                var result = await _exercisesService.GetExercisesByBodyParts(queryParams, bodyPartName);
+                var result = await _exercisesService.GetExercisesByEquipments(request);
                 if (result == null)
                 {
-                    return NotFound($"Exercise with specified body part '{bodyPartName}' was not found.");
+                    return NotFound($"No exercises found.");
                 }
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                if (ex is HttpRequestException)
+                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    return BadRequest(ex.Message);
+                }
+                else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
                     return NotFound(ex.Message);
                 }
-                return BadRequest(ex.Message);
+                else
+                {
+                    return StatusCode(500, ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
 
         [HttpPost]
-        [Route("equipment/{equipmentName}")]
-        public async Task<IActionResult> GetExercisesByEquipment([FromBody] ExerciseRequestQueryParameters? queryParams, string equipmentName)
+        [Route("muscle")]
+        public async Task<IActionResult> GetExercisesByMuscle([FromBody] ExerciseByMuscleRequestDto request)
         {
             try
             {
-                var result = await _exercisesService.GetExercisesByEquipment(queryParams, equipmentName);
+                var result = await _exercisesService.GetExercisesByMuscles(request);
                 if (result == null)
                 {
-                    return NotFound($"Exercise with specified equipment name '{equipmentName}' was not found.");
+                    return NotFound($"No exercises found.");
                 }
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                if (ex is HttpRequestException)
+                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    return BadRequest(ex.Message);
+                }
+                else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
                     return NotFound(ex.Message);
                 }
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("muscle/{muscleName}")]
-        public async Task<IActionResult> GetExercisesByMuscle([FromBody] ExerciseRequestQueryParameters? queryParams, string muscleName)
-        {
-            try
-            {
-                var result = await _exercisesService.GetExercisesByMuscle(queryParams, muscleName);
-                if (result == null)
+                else
                 {
-                    return NotFound($"Exercise with specified muscle name '{muscleName}' was not found.");
+                    return StatusCode(500, ex.Message);
                 }
-                return Ok(result);
             }
             catch (Exception ex)
             {
-                if (ex is HttpRequestException)
-                {
-                    return NotFound(ex.Message);
-                }
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
         [HttpPost]
         [Route("search")]
-        public async Task<IActionResult> GetExercisesByFuzzyMatching([FromBody] ExerciseRequestQueryParameters? queryParams)
+        public async Task<IActionResult> GetExercisesBySearch([FromBody] ExerciseSearchRequestDto request)
         {
             try
             {
-                var result = await _exercisesService.GetExercisesByFuzzyMatching(queryParams);
+                var result = await _exercisesService.GetExercisesBySearchWithFuzzyMatching(request);
                 if (result == null)
                 {
-                    return NotFound("No exercises found matching the specified search criteria.");
+                    return NotFound("No exercises found.");
                 }
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                if (ex is HttpRequestException)
+                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    return BadRequest(ex.Message);
+                }
+                else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
                     return NotFound(ex.Message);
                 }
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("optional-search")]
-        public async Task<IActionResult> GetExercisesByOptionalSearch([FromBody] ExerciseRequestQueryParameters? queryParams)
-        {
-            try
-            {
-                var result = await _exercisesService.GetExercisesByOptionalSearch(queryParams);
-                if (result == null)
+                else
                 {
-                    return NotFound("No exercises found matching the specified search criteria.");
+                    return StatusCode(500, ex.Message);
                 }
-                return Ok(result);
             }
             catch (Exception ex)
             {
-                if (ex is HttpRequestException)
-                {
-                    return NotFound(ex.Message);
-                }
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
         [HttpPost]
         [Route("filter")]
-        public async Task<IActionResult> GetExercisesByAdvancedFiltering([FromBody] ExerciseRequestQueryParameters? queryParams)
+        public async Task<IActionResult> GetExercisesByAdvancedFiltering([FromBody] ExerciseFilterRequestDto request)
         {
             try
             {
-                var result = await _exercisesService.GetExercisesByAdvancedFiltering(queryParams);
+                var result = await _exercisesService.GetExercisesByAdvancedFiltering(request);
                 if (result == null)
                 {
-                    return NotFound("No exercises found matching the specified search criteria.");
+                    return NotFound("No exercises found.");
                 }
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                if (ex is HttpRequestException)
+                if (ex.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    return BadRequest(ex.Message);
+                }
+                else if (ex.StatusCode == HttpStatusCode.NotFound)
                 {
                     return NotFound(ex.Message);
                 }
-                return BadRequest(ex.Message);
+                else
+                {
+                    return StatusCode(500, ex.Message);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
         #endregion

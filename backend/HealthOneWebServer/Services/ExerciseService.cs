@@ -37,7 +37,7 @@ namespace HealthOneWebServer.Services
             return result;
         }
 
-        public async Task<ExerciseResponseDto> GetExercisesBySearchFuzzyMatching(ExerciseSearchRequestDto request)
+        public async Task<ExerciseResponseDto> GetExercisesBySearchWithFuzzyMatching(ExerciseSearchRequestDto request)
         {
             string fullUri = $"{ExerciseDbV1ApiClient.GetBaseUri()}/exercises/search?{ApiClient.Base.BaseApiClient.CreateUriQueryString(request)}";
             var result = await _client.GetAsync<ExerciseResponseDto>(fullUri);
