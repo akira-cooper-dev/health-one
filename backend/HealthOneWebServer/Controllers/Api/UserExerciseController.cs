@@ -1,4 +1,5 @@
-﻿using HealthOneWebServer.Model.Dto.UserExercise;
+﻿using HealthOneWebServer.Model.Dto.Exercise;
+using HealthOneWebServer.Model.Dto.UserExercise;
 using HealthOneWebServer.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,14 +18,14 @@ namespace HealthOneWebServer.Controllers.Api
 
         [HttpGet]
         [Route("{userId}")]
-        public async Task<IActionResult> GetAllExercisesByUserId(int userId)
+        public async Task<ActionResult<ExerciseDto>> GetAllExercisesByUserId(int userId)
         {
             try
             {
                 var result = await _userExerciseService.GetAllExercisesByUserId(userId);
                 if (result == null)
                 {
-                    return NotFound($"User exercise with specified ID '{userId}' was not found.");
+                    return NotFound($"No exercises found for user with ID '{userId}'.");
                 }
                 return Ok(result);
             }
@@ -35,7 +36,7 @@ namespace HealthOneWebServer.Controllers.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddUserExercise([FromBody] CreateUserExerciseDto dto)
+        public async Task<ActionResult<ExerciseDto>> AddUserExercise([FromBody] CreateUserExerciseRequestDto dto)
         {
             try
             {

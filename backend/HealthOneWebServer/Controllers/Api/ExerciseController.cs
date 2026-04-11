@@ -1,3 +1,4 @@
+using HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api.ExerciseById;
 using HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api.ExerciseFilter;
 using HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api.ExerciseSearch;
 using HealthOneWebServer.Services;
@@ -22,7 +23,7 @@ namespace HealthOneWebServer.Controllers.API
         #region Endpoints for external ExerciseDbV1Api calls
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetExerciseById(string id)
+        public async Task<ActionResult<ExerciseByIdResponseDto>> GetExerciseById(string id)
         {
             try
             {
@@ -49,7 +50,7 @@ namespace HealthOneWebServer.Controllers.API
 
         [HttpPost]
         [Route("search")]
-        public async Task<IActionResult> GetExercisesBySearch([FromBody] ExerciseSearchRequestDto request)
+        public async Task<ActionResult<ExerciseSearchResponseDto>> GetExercisesBySearch([FromBody] ExerciseSearchRequestDto request)
         {
             try
             {
@@ -83,7 +84,7 @@ namespace HealthOneWebServer.Controllers.API
 
         [HttpPost]
         [Route("filter")]
-        public async Task<IActionResult> GetExercisesByAdvancedFiltering([FromBody] ExerciseFilterRequestDto request)
+        public async Task<ActionResult<ExerciseFilterResponseDto>> GetExercisesByAdvancedFiltering([FromBody] ExerciseFilterRequestDto request)
         {
             try
             {

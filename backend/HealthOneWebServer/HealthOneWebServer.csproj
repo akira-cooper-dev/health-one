@@ -15,5 +15,13 @@
   <ItemGroup>
     <ProjectReference Include="..\Infra.Data\Infra.Data.csproj" />
   </ItemGroup>
+  
+  <Target Name="GenerateOpenApiAfterBuild" AfterTargets="Build">
+    <Exec Command="dotnet &quot;$(TargetPath)&quot; --generate-openapi"  />
+  </Target>
+
+  <Target Name="GenerateOpenApiBeforeRun" BeforeTargets="Run">
+    <Exec Command="dotnet &quot;$(TargetPath)&quot; --generate-openapi"  />
+  </Target>
 
 </Project>

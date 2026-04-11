@@ -15,14 +15,20 @@ namespace HealthOneWebServer.Services
             _userExerciseRepo = userExerciseRepo;
         }
 
-        public async Task<List<UserExercise>> GetAllExercisesByUserId(int userId)
+        public async Task<List<UserExerciseDto>> GetAllExercisesByUserId(int userId)
         {
-            return await _userExerciseRepo.GetAllExercisesByUserId(userId);
+            var exercises = await _userExerciseRepo.GetAllExercisesByUserId(userId);
+            return exercises.Select(e => new UserExerciseDto
+            {
+                Id = e.Id,
+                UserId = e.UserId,
+                ExerciseId = e.ExerciseId
+            }).ToList();
         }
 
-        public async Task<UserExercise> AddUserExercise(CreateUserExerciseDto dto)
+        public async Task<UserExerciseDto> AddUserExercise(CreateUserExerciseRequestDto dto)
         {
-            var match = await _exerciseRepo.GetByApiId(dto.ExerciseApiId);
+            Exercise? match = await _exerciseRepo.GetByApiId(dto.ExerciseApiId);
 
             if (match == null)
             {
@@ -34,18 +40,32 @@ namespace HealthOneWebServer.Services
                     Time = dto.Time
                 });
 
-                return await _userExerciseRepo.AddAsync(new UserExercise
+                var newUserExercise = await _userExerciseRepo.AddAsync(new UserExercise
                 {
                     UserId = dto.UserId,
                     ExerciseId = newExercise.Id
                 });
+
+                return new UserExerciseDto
+                {
+                    Id = newUserExercise.Id,
+                    UserId = newUserExercise.UserId,
+                    ExerciseId = newUserExercise.ExerciseId
+                };
             }
 
-            return await _userExerciseRepo.AddAsync(new UserExercise
+            UserExercise result = await _userExerciseRepo.AddAsync(new UserExercise
             {
                 UserId = dto.UserId,
                 ExerciseId = match.Id
             });
+
+            return new UserExerciseDto
+            {
+                Id = result.Id,
+                UserId = result.UserId,
+                ExerciseId = result.ExerciseId
+            };
         }
     }
 }

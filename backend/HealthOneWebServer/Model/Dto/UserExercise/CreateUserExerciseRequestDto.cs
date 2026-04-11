@@ -2,7 +2,7 @@
 
 namespace HealthOneWebServer.Model.Dto.UserExercise
 {
-    public class CreateUserExerciseDto
+    public class CreateUserExerciseRequestDto
     {
         [Required]
         public required int UserId { get; set; }

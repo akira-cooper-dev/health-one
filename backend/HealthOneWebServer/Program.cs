@@ -4,37 +4,62 @@ using Infra.Data;
 using Infra.Data.Repositories.Base;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Writers;
 using Npgsql;
+using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
+
+#region Local Methods
+
+// Write Swashbuckle OpenAPI spec to yaml file in root directory
+static void GenerateOpenApiFile(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var swaggerProvider = scope.ServiceProvider.GetRequiredService<ISwaggerProvider>();
+    var swagger = swaggerProvider.GetSwagger("v1");
+    var outputFilePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "openapi.yaml"));
+
+    using var stringWriter = new StringWriter();
+    var yamlWriter = new OpenApiYamlWriter(stringWriter);
+
+    // load serialized swagger document into writer
+    swagger.SerializeAsV3(yamlWriter);
+
+    // write output to file
+    File.WriteAllText(outputFilePath, stringWriter.ToString());
+
+    Console.WriteLine($"OpenAPI YAML generated at: {outputFilePath}");
+}
+#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddUserSecrets<Program>();
 
-// Get base connection string
+// db connection setup
 var baseConnectionString = builder.Configuration.GetConnectionString("Development");
-
-// Get db credentials
 var dbUser = builder.Configuration["DbUser"];
 var dbPassword = builder.Configuration["DbPassword"];
-
-// get api credentials
-var apiKey = builder.Configuration["RapidApiKey"];
-var apiHost = builder.Configuration["RapidApiHost"];
-
-// form complete connection string
 var connectionStringBuilder = new NpgsqlConnectionStringBuilder(baseConnectionString);
 connectionStringBuilder.Username = dbUser;
 connectionStringBuilder.Password = dbPassword;
 var connectionString = connectionStringBuilder.ToString();
-
-// add db context with connection string
 builder.Services.AddDbContext<AppDbContext>(optionsBuilder =>
 {
     optionsBuilder.UseNpgsql(connectionString);
 });
 
-// Allow CORS for Angular development server
+// external API setup
+var apiKey = builder.Configuration["RapidApiKey"];
+var apiHost = builder.Configuration["RapidApiHost"];
+builder.Services.AddHttpClient<ExerciseDbV1ApiClient>(client =>
+{
+    client.BaseAddress = new Uri(ExerciseDbV1ApiClient.GetBaseUri());
+    client.DefaultRequestHeaders.Add("X-RapidAPI-Key", apiKey);
+    client.DefaultRequestHeaders.Add("X-RapidAPI-Host", apiHost);
+});
+
+// allow CORS for Angular development server
 var allowOrigin = "angular-dev";
 builder.Services.AddCors(options =>
 {
@@ -44,7 +69,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add all repository classes to DI container
+// add all db repository classes to DI container
 var baseRepoAssembly = Assembly.GetAssembly(typeof(CRUDRepository<>));
 var repoTypes = baseRepoAssembly.GetTypes().Where(
     t => t.IsClass &&
@@ -56,17 +81,8 @@ var repoTypes = baseRepoAssembly.GetTypes().Where(
 );
 foreach (var repoType in repoTypes)
 {
-
     builder.Services.AddScoped(repoType);
 }
-
-// add and configure http client for external API
-builder.Services.AddHttpClient<ExerciseDbV1ApiClient>(client =>
-{
-    client.BaseAddress = new Uri(ExerciseDbV1ApiClient.GetBaseUri());
-    client.DefaultRequestHeaders.Add("X-RapidAPI-Key", apiKey);
-    client.DefaultRequestHeaders.Add("X-RapidAPI-Host", apiHost);
-});
 
 // add services and controllers
 builder.Services.AddScoped<ExerciseService>();
@@ -74,13 +90,30 @@ builder.Services.AddControllers(options =>
 {
     options.Conventions.Add(new RouteTokenTransformerConvention(new SlugifyParameterTransformer()));
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Swashbuckle and OpenAPI setup
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new()
+    {
+        Title = "HealthOne Web Server API",
+        Version = "v1",
+        Description = "API for HealthOne web application."
+    });
+});
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// generate open-api file
+if (args.Contains("--generate-openapi"))
+{
+    GenerateOpenApiFile(app);
+    return;
+}
+
+// development mode
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
