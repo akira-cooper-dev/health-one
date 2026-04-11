@@ -18,6 +18,10 @@ var baseConnectionString = builder.Configuration.GetConnectionString("Developmen
 var dbUser = builder.Configuration["DbUser"];
 var dbPassword = builder.Configuration["DbPassword"];
 
+// get api credentials
+var apiKey = builder.Configuration["RapidApiKey"];
+var apiHost = builder.Configuration["RapidApiHost"];
+
 // form complete connection string
 var connectionStringBuilder = new NpgsqlConnectionStringBuilder(baseConnectionString);
 connectionStringBuilder.Username = dbUser;
@@ -56,10 +60,15 @@ foreach (var repoType in repoTypes)
     builder.Services.AddScoped(repoType);
 }
 
+// add and configure http client for external API
+builder.Services.AddHttpClient<ExerciseDbV1ApiClient>(client =>
+{
+    client.BaseAddress = new Uri(ExerciseDbV1ApiClient.GetBaseUri());
+    client.DefaultRequestHeaders.Add("X-RapidAPI-Key", apiKey);
+    client.DefaultRequestHeaders.Add("X-RapidAPI-Host", apiHost);
+});
 
-
-// Add services to the container.
-builder.Services.AddHttpClient<ExerciseDbV1ApiClient>();
+// add services and controllers
 builder.Services.AddScoped<ExerciseService>();
 builder.Services.AddControllers(options =>
 {

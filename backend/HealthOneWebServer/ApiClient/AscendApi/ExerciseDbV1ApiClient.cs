@@ -1,5 +1,11 @@
 using HealthOneWebServer.ApiClient.Base;
 
+/*
+* API docs:
+* https://docs.ascendapi.com/api-reference/introduction
+* https://v2.exercisedb.dev/docs
+*/
+
 namespace HealthOneWebServer.ApiClient.AscendApi
 {
     public class ExerciseDbV1ApiClient : BaseApiClient

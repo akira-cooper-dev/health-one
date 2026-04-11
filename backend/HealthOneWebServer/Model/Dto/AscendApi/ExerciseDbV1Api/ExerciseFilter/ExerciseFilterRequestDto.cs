@@ -1,12 +1,12 @@
-﻿namespace HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api
+﻿namespace HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api.ExerciseFilter
 {
     public class ExerciseFilterRequestDto
     {
         public string Name { get; set; }
+        public string Keywords { get; set; } // comma-separated
         public string TargetMuscles { get; set; } // comma-separated
         public string SecondaryMuscles { get; set; } // comma-separated
-        public string ExerciseTypes { get; set; }   // comma-separated
-        public ExerciseDifficultyType Difficulty { get; set; }  // beginner, intermediate, advanced
+        public string ExerciseType { get; set; }   // comma-separated
         public string BodyParts { get; set; } // comma-separated
         public string Equipments { get; set; } // comma-separated
         public string Limit { get; set; } // max number of results to return (min = 1, max = 25, default = 10)

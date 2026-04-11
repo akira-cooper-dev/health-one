@@ -1,4 +1,4 @@
-namespace HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api
+namespace HealthOneWebServer.Model.Dto.AscendApi.ExerciseDbV1Api.Core
 {
     public class Metadata
     {
