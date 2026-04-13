@@ -6,4 +6,6 @@ import { Injectable } from '@angular/core';
 })
 export class ExerciseService extends BaseApiService {
     endpointUri = `${this.baseUri}/exercise`;
+
+
 }
