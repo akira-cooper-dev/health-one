@@ -1,13 +1,10 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { catchError, filter, map, Observable, of, switchMap, tap } from 'rxjs';
-import { ExerciseDbApiService } from '../../services/exercise-db-api.service';
-import { ExerciseEntity } from '../../models/dto/exercise-db-api/exercise-entity-dto';
 import { FormBuilder } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { ExerciseDetailsDialogComponent } from '../shared/exercise-details-dialog/exercise-details-dialog.component';
 import { rxState } from '@rx-angular/state';
-import { ExerciseResponseDto } from '../../models/dto/exercise-db-api/exercise-response-dto';
 
 interface ExerciseSearchState {
   exerciseResult: ExerciseResponseDto | null;
@@ -34,7 +31,7 @@ export class ExerciseSearchComponent implements OnInit {
     (({ set }) => set({
       exerciseResult: null,
       isLoading: false
-    }))
+    }));
   exerciseResults$: Observable<ExerciseEntity[]> = this.state.select('exerciseResult', 'data');
   isLoading$: Observable<boolean> = this.state.select('isLoading');
 
