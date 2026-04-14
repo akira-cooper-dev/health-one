@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ExerciseEntity } from '../../../models/dto/exercise-db-api/exercise-entity-dto';
+// import { ExerciseEntity } from '../../../models/dto/exercise-db-api/exercise-entity-dto';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class ExerciseDetailsDialogComponent implements OnInit {
   private dialogRef: MatDialogRef<ExerciseDetailsDialogComponent> = inject(MatDialogRef<ExerciseDetailsDialogComponent>);
   private dialogData = inject(MAT_DIALOG_DATA);
-  exercise: ExerciseEntity = this.dialogData.exercise;
+  exercise = null;
 
   ngOnInit(): void {
   }

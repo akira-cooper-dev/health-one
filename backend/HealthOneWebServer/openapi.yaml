@@ -97,6 +97,16 @@ paths:
       responses:
         '200':
           description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExerciseDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExerciseDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExerciseDto'
   /api/user-exercise:
     post:
       tags:
@@ -105,19 +115,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUserExerciseDto'
+              $ref: '#/components/schemas/CreateUserExerciseRequestDto'
           text/json:
             schema:
-              $ref: '#/components/schemas/CreateUserExerciseDto'
+              $ref: '#/components/schemas/CreateUserExerciseRequestDto'
           application/*+json:
             schema:
-              $ref: '#/components/schemas/CreateUserExerciseDto'
+              $ref: '#/components/schemas/CreateUserExerciseRequestDto'
       responses:
         '200':
           description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ExerciseDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExerciseDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ExerciseDto'
 components:
   schemas:
-    CreateUserExerciseDto:
+    CreateUserExerciseRequestDto:
       required:
         - exerciseApiId
         - exerciseName
@@ -213,6 +233,18 @@ components:
           type: boolean
         data:
           $ref: '#/components/schemas/ExerciseByIdData'
+      additionalProperties: false
+    ExerciseDto:
+      type: object
+      properties:
+        apiId:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        time:
+          $ref: '#/components/schemas/TimeOnly'
       additionalProperties: false
     ExerciseFilterData:
       required:

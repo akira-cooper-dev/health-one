@@ -8,6 +8,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { RxPush } from '@rx-angular/template/push';
 import { ExerciseSearchModule } from './features/exercise-search/exercise-search.module';
 import { SharedModule } from './features/shared/shared.module';
+import { provideDefaultClient } from './api';
+import { environment } from '../../environment/environment.development';
+
+const baseApiUri = environment.baseApiUri;
 
 @NgModule({
   declarations: [
@@ -27,6 +31,9 @@ import { SharedModule } from './features/shared/shared.module';
     },
     provideHttpClient(),
     provideAnimations(),
+    provideDefaultClient({
+      basePath: baseApiUri
+    }),
     RxPush
   ],
   bootstrap: [AppComponent]
