@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { rxState } from '@rx-angular/state';
 import { ExerciseSearchData, ExerciseSearchRequestDto, ExerciseService } from '../../api';
+import { ExerciseDetailsDialogComponent } from '../shared/exercise-details-dialog/exercise-details-dialog.component';
 
 interface ExerciseSearchState {
   exerciseData: ExerciseSearchData[] | null;
@@ -61,36 +62,12 @@ export class ExerciseSearchComponent {
   }
 
   openExerciseDetails(exerciseId: string): void {
-
+    this.dialogService.open(ExerciseDetailsDialogComponent, {
+      data: exerciseId,
+    })
   }
 
   addExercise(exercise: ExerciseSearchData): void {
 
   }
-
-  // getCapitalizedString(str: string): string {
-  //   if (!str) return '';
-  //   const words = str.toLowerCase().split(' ');
-  //   for (let i = 0; i < words.length; i++) {
-  //     words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
-  //   }
-  //   return words.join(' ');
-  // }
-
-  // getCommaSeparatedString(items: string[]): string {
-  //   items = items.map(item => this.getCapitalizedString(item));
-  //   return items.join(', ');
-  // }
-
-  // openExerciseInstructions(exercise: ExerciseEntity): void {
-  //   this.dialogService.open(ExerciseDetailsDialogComponent, {
-  //     data: {
-  //       exercise: exercise
-  //     },
-  //   });
-  // }
-
-  // addExercise(exercise: ExerciseEntity): Observable<boolean> {
-  //   return null;
-  // }
 }
