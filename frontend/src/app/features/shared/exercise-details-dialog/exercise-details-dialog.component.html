@@ -1,8 +1,7 @@
-<div class="container">
+<mat-dialog-content>
   <h1 matDialogTitle *rxIf="exerciseData$ | push as exerciseData">
     {{ exerciseData.name}}
   </h1>
-
   <app-video-player *rxIf="videoPlayerOptions$ | push as videoPlayerOptions" [options]="videoPlayerOptions">
   </app-video-player>
-</div>
+</mat-dialog-content>

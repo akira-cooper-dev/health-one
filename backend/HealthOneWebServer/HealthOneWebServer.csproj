@@ -9,19 +9,16 @@
 
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="9.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Infra.Data\Infra.Data.csproj" />
   </ItemGroup>
   
-  <Target Name="GenerateOpenApiAfterBuild" AfterTargets="Build">
-    <Exec Command="dotnet &quot;$(TargetPath)&quot; --generate-openapi"  />
+  <Target Name="CreateSwaggerJson" AfterTargets="PostBuildEvent" Condition="$(Configuration)=='DEBUG'">
+    <Exec Command="dotnet swagger tofile --output .\openapi.yaml $(OutputPath)$(AssemblyName).dll v1"></Exec>
   </Target>
-
-  <Target Name="GenerateOpenApiBeforeRun" BeforeTargets="Run">
-    <Exec Command="dotnet &quot;$(TargetPath)&quot; --generate-openapi"  />
-  </Target>
+ 
 
 </Project>

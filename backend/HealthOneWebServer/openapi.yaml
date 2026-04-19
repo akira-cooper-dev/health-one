@@ -1,420 +1,598 @@
-openapi: 3.0.1
-info:
-  title: HealthOne Web Server API
-  description: API for HealthOne web application.
-  version: v1
-paths:
-  '/api/v1/exercise/{id}':
-    get:
-      tags:
-        - Exercise
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ExerciseByIdResponseDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseByIdResponseDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseByIdResponseDto'
-  /api/v1/exercise/search:
-    post:
-      tags:
-        - Exercise
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExerciseSearchRequestDto'
-          text/json:
-            schema:
-              $ref: '#/components/schemas/ExerciseSearchRequestDto'
-          application/*+json:
-            schema:
-              $ref: '#/components/schemas/ExerciseSearchRequestDto'
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ExerciseSearchResponseDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseSearchResponseDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseSearchResponseDto'
-  /api/v1/exercise/filter:
-    post:
-      tags:
-        - Exercise
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ExerciseFilterRequestDto'
-          text/json:
-            schema:
-              $ref: '#/components/schemas/ExerciseFilterRequestDto'
-          application/*+json:
-            schema:
-              $ref: '#/components/schemas/ExerciseFilterRequestDto'
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ExerciseFilterResponseDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseFilterResponseDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseFilterResponseDto'
-  '/api/user-exercise/{userId}':
-    get:
-      tags:
-        - UserExercise
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ExerciseDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseDto'
-  /api/user-exercise:
-    post:
-      tags:
-        - UserExercise
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserExerciseRequestDto'
-          text/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserExerciseRequestDto'
-          application/*+json:
-            schema:
-              $ref: '#/components/schemas/CreateUserExerciseRequestDto'
-      responses:
-        '200':
-          description: Success
-          content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/ExerciseDto'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseDto'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/ExerciseDto'
-components:
-  schemas:
-    CreateUserExerciseRequestDto:
-      required:
-        - exerciseApiId
-        - exerciseName
-        - userId
-      type: object
-      properties:
-        userId:
-          type: integer
-          format: int32
-        exerciseApiId:
-          minLength: 1
-          type: string
-        exerciseName:
-          minLength: 1
-          type: string
-        time:
-          $ref: '#/components/schemas/TimeOnly'
-      additionalProperties: false
-    ExerciseByIdData:
-      required:
-        - exerciseId
-        - name
-      type: object
-      properties:
-        exerciseId:
-          minLength: 1
-          type: string
-        name:
-          minLength: 1
-          type: string
-        imageUrl:
-          type: string
-          nullable: true
-        bodyParts:
-          type: array
-          items:
-            type: string
-          nullable: true
-        equipments:
-          type: array
-          items:
-            type: string
-          nullable: true
-        exerciseTips:
-          type: array
-          items:
-            type: string
-          nullable: true
-        exerciseType:
-          type: string
-          nullable: true
-        instructions:
-          type: array
-          items:
-            type: string
-          nullable: true
-        keywords:
-          type: array
-          items:
-            type: string
-          nullable: true
-        overview:
-          type: string
-          nullable: true
-        secondaryMuscles:
-          type: array
-          items:
-            type: string
-          nullable: true
-        targetMuscles:
-          type: array
-          items:
-            type: string
-          nullable: true
-        variations:
-          type: array
-          items:
-            type: string
-          nullable: true
-        relatedExerciseIds:
-          type: array
-          items:
-            type: string
-          nullable: true
-        videoUrl:
-          type: string
-          nullable: true
-      additionalProperties: false
-    ExerciseByIdResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          $ref: '#/components/schemas/ExerciseByIdData'
-      additionalProperties: false
-    ExerciseDto:
-      type: object
-      properties:
-        apiId:
-          type: string
-          nullable: true
-        name:
-          type: string
-          nullable: true
-        time:
-          $ref: '#/components/schemas/TimeOnly'
-      additionalProperties: false
-    ExerciseFilterData:
-      required:
-        - exerciseId
-        - name
-      type: object
-      properties:
-        exerciseId:
-          minLength: 1
-          type: string
-        name:
-          minLength: 1
-          type: string
-        imageUrl:
-          type: string
-          nullable: true
-        bodyParts:
-          type: array
-          items:
-            type: string
-          nullable: true
-        equipments:
-          type: array
-          items:
-            type: string
-          nullable: true
-        exerciseType:
-          type: string
-          nullable: true
-        keywords:
-          type: array
-          items:
-            type: string
-          nullable: true
-        secondaryMuscles:
-          type: array
-          items:
-            type: string
-          nullable: true
-        targetMuscles:
-          type: array
-          items:
-            type: string
-          nullable: true
-      additionalProperties: false
-    ExerciseFilterRequestDto:
-      type: object
-      properties:
-        name:
-          type: string
-          nullable: true
-        keywords:
-          type: string
-          nullable: true
-        targetMuscles:
-          type: string
-          nullable: true
-        secondaryMuscles:
-          type: string
-          nullable: true
-        exerciseType:
-          type: string
-          nullable: true
-        bodyParts:
-          type: string
-          nullable: true
-        equipments:
-          type: string
-          nullable: true
-        limit:
-          type: string
-          nullable: true
-        after:
-          type: string
-          nullable: true
-        before:
-          type: string
-          nullable: true
-      additionalProperties: false
-    ExerciseFilterResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExerciseFilterData'
-          nullable: true
-        meta:
-          $ref: '#/components/schemas/Metadata'
-      additionalProperties: false
-    ExerciseSearchData:
-      required:
-        - exerciseId
-        - name
-      type: object
-      properties:
-        exerciseId:
-          minLength: 1
-          type: string
-        name:
-          minLength: 1
-          type: string
-        imageUrl:
-          type: string
-          nullable: true
-      additionalProperties: false
-    ExerciseSearchRequestDto:
-      type: object
-      properties:
-        search:
-          type: string
-          nullable: true
-      additionalProperties: false
-    ExerciseSearchResponseDto:
-      type: object
-      properties:
-        success:
-          type: boolean
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExerciseSearchData'
-          nullable: true
-      additionalProperties: false
-    Metadata:
-      type: object
-      properties:
-        total:
-          type: integer
-          format: int32
-        hasNextPage:
-          type: boolean
-        hasPreviousPage:
-          type: boolean
-        nextCursor:
-          type: string
-          nullable: true
-        previousCursor:
-          type: string
-          nullable: true
-      additionalProperties: false
-    TimeOnly:
-      type: object
-      properties:
-        hour:
-          type: integer
-          format: int32
-        minute:
-          type: integer
-          format: int32
-        second:
-          type: integer
-          format: int32
-          readOnly: true
-        millisecond:
-          type: integer
-          format: int32
-          readOnly: true
-        microsecond:
-          type: integer
-          format: int32
-          readOnly: true
-        nanosecond:
-          type: integer
-          format: int32
-          readOnly: true
-        ticks:
-          type: integer
-          format: int64
-          readOnly: true
-      additionalProperties: false
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "HealthOne Web Server API",
+    "description": "API for HealthOne web app.",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/v1/exercise/{id}": {
+      "get": {
+        "tags": [
+          "Exercise"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseByIdResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseByIdResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseByIdResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/exercise/search": {
+      "post": {
+        "tags": [
+          "Exercise"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExerciseSearchRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExerciseSearchRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExerciseSearchRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseSearchResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseSearchResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseSearchResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/exercise/filter": {
+      "post": {
+        "tags": [
+          "Exercise"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExerciseFilterRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExerciseFilterRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExerciseFilterRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseFilterResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseFilterResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseFilterResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-exercise/{userId}": {
+      "get": {
+        "tags": [
+          "UserExercise"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user-exercise": {
+      "post": {
+        "tags": [
+          "UserExercise"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserExerciseRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserExerciseRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserExerciseRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExerciseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateUserExerciseRequestDto": {
+        "required": [
+          "exerciseApiId",
+          "exerciseName",
+          "userId"
+        ],
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "exerciseApiId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "exerciseName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "time": {
+            "type": "string",
+            "format": "time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseByIdData": {
+        "required": [
+          "exerciseId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "exerciseId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyParts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "equipments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "exerciseTips": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "exerciseType": {
+            "type": "string",
+            "nullable": true
+          },
+          "instructions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "overview": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryMuscles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "targetMuscles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "variations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "relatedExerciseIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "videoUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseByIdResponseDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/ExerciseByIdData"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseDto": {
+        "type": "object",
+        "properties": {
+          "apiId": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "time": {
+            "type": "string",
+            "format": "time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseFilterData": {
+        "required": [
+          "exerciseId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "exerciseId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyParts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "equipments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "exerciseType": {
+            "type": "string",
+            "nullable": true
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "secondaryMuscles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "targetMuscles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseFilterRequestDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "keywords": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetMuscles": {
+            "type": "string",
+            "nullable": true
+          },
+          "secondaryMuscles": {
+            "type": "string",
+            "nullable": true
+          },
+          "exerciseType": {
+            "type": "string",
+            "nullable": true
+          },
+          "bodyParts": {
+            "type": "string",
+            "nullable": true
+          },
+          "equipments": {
+            "type": "string",
+            "nullable": true
+          },
+          "limit": {
+            "type": "string",
+            "nullable": true
+          },
+          "after": {
+            "type": "string",
+            "nullable": true
+          },
+          "before": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseFilterResponseDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExerciseFilterData"
+            },
+            "nullable": true
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Metadata"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseSearchData": {
+        "required": [
+          "exerciseId",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "exerciseId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseSearchRequestDto": {
+        "type": "object",
+        "properties": {
+          "search": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExerciseSearchResponseDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExerciseSearchData"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Metadata": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hasNextPage": {
+            "type": "boolean"
+          },
+          "hasPreviousPage": {
+            "type": "boolean"
+          },
+          "nextCursor": {
+            "type": "string",
+            "nullable": true
+          },
+          "previousCursor": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Exercise"
+    },
+    {
+      "name": "UserExercise"
+    }
+  ]
+}

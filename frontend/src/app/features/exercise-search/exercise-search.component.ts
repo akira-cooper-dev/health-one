@@ -64,6 +64,8 @@ export class ExerciseSearchComponent {
   openExerciseDetails(exerciseId: string): void {
     this.dialogService.open(ExerciseDetailsDialogComponent, {
       data: exerciseId,
+      width: '60vw',
+      height: '80vh',
     })
   }
 

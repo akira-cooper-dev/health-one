@@ -4,32 +4,30 @@ using Infra.Data;
 using Infra.Data.Repositories.Base;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Writers;
 using Npgsql;
-using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 
 #region Local Methods
 
 // Write Swashbuckle OpenAPI spec to yaml file in root directory
-static void GenerateOpenApiFile(WebApplication app)
-{
-    using var scope = app.Services.CreateScope();
-    var swaggerProvider = scope.ServiceProvider.GetRequiredService<ISwaggerProvider>();
-    var swagger = swaggerProvider.GetSwagger("v1");
-    var outputFilePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "openapi.yaml"));
+//static void GenerateOpenApiFile(WebApplication app)
+//{
+//    using var scope = app.Services.CreateScope();
+//    var swaggerProvider = scope.ServiceProvider.GetRequiredService<ISwaggerProvider>();
+//    var swagger = swaggerProvider.GetSwagger("v1");
+//    var outputFilePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "openapi.yaml"));
 
-    using var stringWriter = new StringWriter();
-    var yamlWriter = new OpenApiYamlWriter(stringWriter);
+//    using var stringWriter = new StringWriter();
+//    var yamlWriter = new OpenApiYamlWriter(stringWriter);
 
-    // load serialized swagger document into writer
-    swagger.SerializeAsV3(yamlWriter);
+//    // load serialized swagger document into writer
+//    swagger.SerializeAsV3(yamlWriter);
 
-    // write output to file
-    File.WriteAllText(outputFilePath, stringWriter.ToString());
+//    // write output to file
+//    File.WriteAllText(outputFilePath, stringWriter.ToString());
 
-    Console.WriteLine($"OpenAPI YAML generated at: {outputFilePath}");
-}
+//    Console.WriteLine($"OpenAPI YAML generated at: {outputFilePath}");
+//}
 #endregion
 
 var builder = WebApplication.CreateBuilder(args);
@@ -100,18 +98,18 @@ builder.Services.AddSwaggerGen(options =>
     {
         Title = "HealthOne Web Server API",
         Version = "v1",
-        Description = "API for HealthOne web application."
+        Description = "API for HealthOne web app."
     });
 });
 
 var app = builder.Build();
 
-// generate open-api file
-if (args.Contains("--generate-openapi"))
-{
-    GenerateOpenApiFile(app);
-    return;
-}
+//// generate open-api file
+//if (args.Contains("--generate-openapi"))
+//{
+//    GenerateOpenApiFile(app);
+//    return;
+//}
 
 // development mode
 if (app.Environment.IsDevelopment())

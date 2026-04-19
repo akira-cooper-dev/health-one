@@ -6,6 +6,11 @@ const config: GeneratorConfig = {
     options: {
         dateType: 'Date',
         enumStyle: 'enum',
+        generateEnumBasedOnDescription: true,
+        customizeMethodName(operationId) {
+            const methodName = operationId.split('_').pop() ?? operationId;
+            return methodName.charAt(0).toLowerCase() + methodName.slice(1);
+        },
     },
 }
 
